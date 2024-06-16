@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Auth\Logout;
+use App\Livewire\Admin\Dashboard\Dashboard as DashboardAdmin;
 use App\Livewire\Auth\Login;
 use Illuminate\Support\Facades\Route;
 
@@ -17,3 +19,14 @@ use Illuminate\Support\Facades\Route;
 Route::group(['middleware' => 'guest'], function () {
     Route::get('/', Login::class)->name('login');
 });
+
+Route::group(['middleware' => ['auth', 'role:admin']], function () {
+    Route::get('/dashboard', DashboardAdmin::class)->name('dashboard-admin');
+
+    
+    Route::post('/logout', [Logout::class, 'logout'])->name('logout');
+});
+
+Route::get('/unauthorized', function () {
+    return 'You are not authorized to access this page.';
+})->name('unauthorized');
