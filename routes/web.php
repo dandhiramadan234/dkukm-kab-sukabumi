@@ -1,9 +1,10 @@
 <?php
 
-use App\Http\Controllers\Auth\Logout;
-use App\Livewire\Admin\Dashboard\Dashboard as DashboardAdmin;
 use App\Livewire\Auth\Login;
+use App\Http\Controllers\Auth\Logout;
 use Illuminate\Support\Facades\Route;
+use App\Livewire\Admin\Form\FormCreateUmkm;
+use App\Livewire\Admin\Dashboard\Dashboard as DashboardAdmin;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,6 +23,7 @@ Route::group(['middleware' => 'guest'], function () {
 
 Route::group(['middleware' => ['auth', 'role:admin']], function () {
     Route::get('/dashboard', DashboardAdmin::class)->name('dashboard-admin');
+    Route::get('/form-create-umkm', FormCreateUmkm::class)->name('form-create-umkm');
 
     
     Route::post('/logout', [Logout::class, 'logout'])->name('logout');
