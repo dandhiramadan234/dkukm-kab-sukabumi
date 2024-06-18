@@ -201,7 +201,7 @@
 
 
 @push('scripts')
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="{{ asset('import/js/chart/chartjs/chart.js') }}"></script>
     <script>
         const ctxTenagaKerja = document.getElementById('chartTenagaKerja').getContext('2d');
         new Chart(ctxTenagaKerja, {
