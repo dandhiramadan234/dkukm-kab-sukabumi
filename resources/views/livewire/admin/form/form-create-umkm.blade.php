@@ -233,7 +233,12 @@
                         </div>
                         <div class="col-md-12">
                             <label class="form-label" for="Modal Awal Usaha">Modal Awal Usaha</label>
-                            <x-forms.money wire:model.defer="modal_awal_usaha" :placeholder="'Modal Awal Usaha'"></x-forms.money>
+                            <div class="input-group"><span class="input-group-text">Rp.</span>
+                                <div class="form-floating">
+                                    <x-forms.money wire:model.defer="modal_awal_usaha"
+                                        :placeholder="'Modal Awal Usaha'"></x-forms.money>
+                                </div>
+                            </div>
                         </div>
                         <div class="col-md-6">
                             <label class="form-label" for="Volume Produksi">Volume Produksi</label>
@@ -255,7 +260,12 @@
                         <div class="col-md-6">
                             <label class="form-label" for="Hasil Penjualan/Omzet">Hasil Penjualan/Omzet (per
                                 bulan)</label>
-                            <x-forms.money wire:model.defer="omzet_penjualan" :placeholder="'Hasil Penjualan/Omzet'"></x-forms.money>
+                            <div class="input-group"><span class="input-group-text">Rp.</span>
+                                <div class="form-floating">
+                                    <x-forms.money wire:model.defer="omzet_penjualan"
+                                        :placeholder="'Hasil Penjualan/Omzet'"></x-forms.money>
+                                </div>
+                            </div>
                         </div>
                         <div class="col-md-6">
                             <label class="form-label" for="Quantity Penjualan">Quantity Penjualan (per
@@ -265,7 +275,12 @@
                         <div class="col-md-12">
                             <label class="form-label" for="Keuntungan Bersih">Keuntungan Bersih (per
                                 bulan)</label>
-                            <x-forms.money wire:model.defer="keuntungan_bersih" :placeholder="'Keuntungan Bersih'"></x-forms.money>
+                            <div class="input-group"><span class="input-group-text">Rp.</span>
+                                <div class="form-floating">
+                                    <x-forms.money wire:model.defer="keuntungan_bersih"
+                                        :placeholder="'Keuntungan Bersih'"></x-forms.money>
+                                </div>
+                            </div>
                         </div>
                         <div class="col-md-12">
                             <div class="card-wrapper border rounded-3 checkbox-checked">
