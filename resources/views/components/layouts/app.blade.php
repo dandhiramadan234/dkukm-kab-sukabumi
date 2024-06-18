@@ -45,6 +45,7 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('import/css/responsive.css') }}">
     @vite(['resources/css/app.css'])
     @livewireStyles
+    @stack('styles')
 </head>
 
 <body>
@@ -98,6 +99,7 @@
     <!-- Theme js-->
     <script src="{{ asset('import/js/script.js') }}"></script>
     <script src="{{ asset('import/js/script1.js') }}"></script>
+    
     <!-- Plugin used-->
     <script>
         document.addEventListener('livewire:init', function() {
@@ -119,6 +121,7 @@
     </script>
     @vite(['resources/js/app.js'])
     @livewireScripts
+    @stack('scripts')
 </body>
 
 </html>

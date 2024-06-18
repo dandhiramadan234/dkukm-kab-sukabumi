@@ -46,21 +46,39 @@
                 </div>
             </div>
         </div>
-        {{-- <div class="col-xl-3 col-sm-6">
+
+        <div class="col-xl-4 col-md-12">
             <div class="card">
-                <div class="card-body student-4">
-                    <div class="d-flex gap-2 align-items-end">
-                        <div class="flex-grow-1">
-                            <h2>1,984</h2>
-                            <p class="mb-0 text-truncate"> UMKM Verified</p>
-                        </div>
-                        <div class="flex-shrink-0"><img src="{{ asset('assets/images/dashboard-4/icon/invoice.png') }}"
-                                alt="">
-                        </div>
-                    </div>
+                <div class="card-header">
+                    <h4>Chart Tenaga Kerja</h4>
+                </div>
+                <div class="card-body" wire:ignore>
+                    <canvas id="chartTenagaKerja"></canvas>
                 </div>
             </div>
-        </div> --}}
+        </div>
+
+        <div class="col-xl-4 col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4>Chart Jenis Usaha</h4>
+                </div>
+                <div class="card-body" wire:ignore>
+                    <canvas id="chartJenisUsaha"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-4 col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4>Chart Jenis Sektor</h4>
+                </div>
+                <div class="card-body" wire:ignore>
+                    <canvas id="chartJenisSektor"></canvas>
+                </div>
+            </div>
+        </div>
 
         <div class="col-xl-12 col-md-12">
             <div class="card">
@@ -156,7 +174,7 @@
                                                         <button type="button" class="dropdown-item"
                                                             data-bs-toggle="modal" data-bs-target="#modal-details"
                                                             wire:click="$dispatchTo('admin.modal.modal-details', 'show-modal-details', { id: {{ $umkm->id }} })">
-                                                           Details
+                                                            Details
                                                         </button>
                                                     </li>
                                                     <li><a class="dropdown-item" href="#!">Update</a>
@@ -180,3 +198,65 @@
         </div>
     </div>
 </div>
+
+
+@push('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const ctxTenagaKerja = document.getElementById('chartTenagaKerja').getContext('2d');
+        new Chart(ctxTenagaKerja, {
+            type: 'pie',
+            data: {
+                labels: @json($chartDataTenagaKerja['labels']),
+                datasets: @json($chartDataTenagaKerja['datasets'])
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                    }
+                }
+            }
+        });
+    </script>
+    <script>
+        const ctxJenisUsaha = document.getElementById('chartJenisUsaha').getContext('2d');
+        new Chart(ctxJenisUsaha, {
+            type: 'pie',
+            data: {
+                labels: @json($chartDataJenisUsaha['labels']),
+                datasets: @json($chartDataJenisUsaha['datasets'])
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                    }
+                }
+            }
+        });
+    </script>
+    <script>
+        const ctxJenisSektor = document.getElementById('chartJenisSektor').getContext('2d');
+        new Chart(ctxJenisSektor, {
+            type: 'pie',
+            data: {
+                labels: @json($chartDataJenisSektor['labels']),
+                datasets: @json($chartDataJenisSektor['datasets'])
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                    }
+                }
+            }
+        });
+    </script>
+@endpush

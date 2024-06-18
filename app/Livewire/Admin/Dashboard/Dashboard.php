@@ -55,6 +55,10 @@ class Dashboard extends Component
     public $totalTenagaKerjaLepasPerempuan;
     public $totalTenagaKerjaLepasLakiLaki;
 
+    public $chartDataTenagaKerja;
+    public $chartDataJenisUsaha;
+    public $chartDataJenisSektor;
+
     public function mount()
     {
         $umkm = Umkm::get();
@@ -68,6 +72,47 @@ class Dashboard extends Component
         $this->totalTenagaKerjaLepasPerempuan = $umkm->sum('tenaga_kerja_lepas_perempuan');
         $this->totalTenagaKerjaLepasLakiLaki = $umkm->sum('tenaga_kerja_lepas_laki_laki');
         $this->totalTenagaKerjaLepas = $this->totalTenagaKerjaLepasPerempuan + $this->totalTenagaKerjaLepasLakiLaki;
+
+        $this->chartDataTenagaKerja = [
+            'labels' => ['Tenaga Kerja Tetap Perempuan', 'Tenaga Kerja Tetap Laki-Laki', 'Tenaga Kerja Lepas Perempuan', 'Tenaga Kerja Lepas Laki-Laki'],
+            'datasets' => [
+                [
+                    'data' => [$this->totalTenagaKerjaTetapPerempuan, $this->totalTenagaKerjaTetapLakiLaki, $this->totalTenagaKerjaLepasPerempuan, $this->totalTenagaKerjaLepasLakiLaki],
+                ],
+            ],
+        ];
+
+        $jenisUsaha = Umkm::distinct('jenis_usaha')->pluck('jenis_usaha');
+        $data = [];
+        foreach ($jenisUsaha as $jenis) {
+            $jumlah = Umkm::where('jenis_usaha', $jenis)->count();
+            $data[] = $jumlah;
+        }
+
+        $this->chartDataJenisUsaha = [
+            'labels' => $jenisUsaha,
+            'datasets' => [
+                [
+                    'data' => $data,
+                ],
+            ],
+        ];
+
+        $jenisSektor = Umkm::distinct('jenis_sektor')->pluck('jenis_sektor');
+        $data = [];
+        foreach ($jenisSektor as $jenis) {
+            $jumlah = Umkm::where('jenis_sektor', $jenis)->count();
+            $data[] = $jumlah;
+        }
+        
+        $this->chartDataJenisSektor = [
+            'labels' => $jenisSektor,
+            'datasets' => [
+                [
+                    'data' => $data,
+                ],
+            ],
+        ];
     }
 
     #[Computed]
