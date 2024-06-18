@@ -44,6 +44,7 @@ class FormCreateUmkm extends Component
     public $daerah_pemasaran = [];
     public $kemitraan = [];
     public $pelatihan;
+    public $status_umkm = 'active';
 
     public function store()
     {
@@ -171,6 +172,7 @@ class FormCreateUmkm extends Component
                 'daerah_pemasaran' => json_encode($this->daerah_pemasaran),
                 'kemitraan' => json_encode($this->kemitraan),
                 'pelatihan' => $this->pelatihan,
+                'status_umkm' => $this->status_umkm,
             ]);
 
             DB::commit();

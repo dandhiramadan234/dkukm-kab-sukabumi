@@ -31,10 +31,10 @@ return new class extends Migration
             $table->string('bentuk_hukum_perusahaan');
             $table->string('no_ijin_usaha');
             $table->json('kepemilikan_ijin_usaha');
-            $table->string('tenaga_kerja_tetap_perempuan');
-            $table->string('tenaga_kerja_tetap_laki_laki');
-            $table->string('tenaga_kerja_lepas_perempuan');
-            $table->string('tenaga_kerja_lepas_laki_laki');
+            $table->integer('tenaga_kerja_tetap_perempuan');
+            $table->integer('tenaga_kerja_tetap_laki_laki');
+            $table->integer('tenaga_kerja_lepas_perempuan');
+            $table->integer('tenaga_kerja_lepas_laki_laki');
             $table->string('modal_awal_usaha');
             $table->string('volume_produksi');
             $table->string('satuan_volume_produksi');
@@ -47,6 +47,7 @@ return new class extends Migration
             $table->json('daerah_pemasaran');
             $table->json('kemitraan');
             $table->string('pelatihan');
+            $table->string('status_umkm');
             $table->timestamps();
             $table->softDeletes();
         });
