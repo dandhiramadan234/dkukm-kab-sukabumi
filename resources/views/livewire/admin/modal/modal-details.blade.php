@@ -53,7 +53,7 @@
                                     <li class="list-group-item">
                                         <div class="d-flex justify-content-between">
                                             <span>Umur</span>
-                                            <span>{{ $umkm->umur }}</span>
+                                            <span>{{ $umkm->umur }} ({{ $umkm->gen }})</span>
                                         </div>
                                     </li>
                                     <li class="list-group-item">

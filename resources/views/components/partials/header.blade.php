@@ -4,8 +4,8 @@
         <div class="header-logo-wrapper col-auto">
             <div class="logo-wrapper">
                 <a href="index.html">
-                    <img class="img-fluid for-light" src="{{ asset('assets/images/logo/logo.png') }}" alt="" />
-                    <img class="img-fluid for-dark" src="{{ asset('assets/images/logo/logo_light.png') }}"
+                    <img class="img-fluid for-light" src="{{ asset('import/images/logo/logo.png') }}" alt="" />
+                    <img class="img-fluid for-dark" src="{{ asset('import/images/logo/logo_light.png') }}"
                         alt="" />
                 </a>
             </div>
@@ -25,11 +25,11 @@
                 <div class="header-logo-wrapper col-auto p-0">
                     <div class="logo-wrapper">
                         <a href="index.html">
-                            <img class="img-fluid" src="{{ asset('assets/images/logo/logo.png') }}" alt=""></a>
+                            <img class="img-fluid" src="{{ asset('import/images/logo/logo.png') }}" alt=""></a>
                     </div>
                     <div class="toggle-sidebar">
                         <svg class="stroke-icon sidebar-toggle status_toggle middle">
-                            <use href="{{ asset('assets/svg/icon-sprite.svg#toggle-icon') }}"></use>
+                            <use href="{{ asset('import/svg/icon-sprite.svg#toggle-icon') }}"></use>
                         </svg>
                     </div>
                 </div>
@@ -38,20 +38,20 @@
                         <li>
                             <div class="mode">
                                 <svg>
-                                    <use href="{{ asset('assets/svg/icon-sprite.svg') }}#full-screen"></use>
+                                    <use href="{{ asset('import/svg/icon-sprite.svg') }}#full-screen"></use>
                                 </svg>
                             </div>
                         </li>
                         <li>
                             <div class="mode">
                                 <svg>
-                                    <use href="{{ asset('assets/svg/icon-sprite.svg#moon') }}"></use>
+                                    <use href="{{ asset('import/svg/icon-sprite.svg#moon') }}"></use>
                                 </svg>
                             </div>
                         </li>
                         <li class="profile-nav onhover-dropdown px-0 py-0">
                             <div class="d-flex profile-media align-items-center">
-                                <img class="img-30" src="../assets/images/dashboard/profile.png" alt="">
+                                <img class="img-30" src="../import/images/dashboard/profile.png" alt="">
                                 <div class="flex-grow-1"><span>{{ Auth::user()->name }}</span>
                                     <p class="mb-0 font-outfit">{{ Auth::user()->role }}<i class="fa fa-angle-down"></i></p>
                                 </div>

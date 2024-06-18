@@ -6,7 +6,7 @@
         <div>
             <div class="logo-wrapper">
                 <a href="index.html">
-                    <img class="img-fluid" src="{{ asset('assets/images/logo/logo_light.png') }}" alt="">
+                    <img class="img-fluid" src="{{ asset('import/images/logo/logo_light.png') }}" alt="">
                 </a>
                 <div class="back-btn">
                     <i class="fa fa-angle-left"></i>
@@ -16,7 +16,7 @@
                 </div>
             </div>
             <div class="logo-icon-wrapper">
-                <a href="index.html"><img class="img-fluid" src="{{ asset('assets/images/logo/logo-icon.png') }}"
+                <a href="index.html"><img class="img-fluid" src="{{ asset('import/images/logo/logo-icon.png') }}"
                         alt="">
                 </a>
             </div>
@@ -39,10 +39,10 @@
                             <i class="fa fa-thumb-tack"> </i>
                             <a class="sidebar-link sidebar-title link-nav" href="/dashboard">
                                 <svg class="stroke-icon">
-                                    <use href="{{ asset('assets/svg/icon-sprite.svg#stroke-home') }}"></use>
+                                    <use href="{{ asset('import/svg/icon-sprite.svg#stroke-home') }}"></use>
                                 </svg>
                                 <svg class="fill-icon">
-                                    <use href="{{ asset('assets/svg/icon-sprite.svg#fill-home') }}"></use>
+                                    <use href="{{ asset('import/svg/icon-sprite.svg#fill-home') }}"></use>
                                 </svg>
                                 <span>Dashboard</span>
                             </a>
@@ -51,10 +51,10 @@
                             <i class="fa fa-thumb-tack"> </i>
                             <a class="sidebar-link sidebar-title link-nav" href="/form-create-umkm">
                                 <svg class="stroke-icon">
-                                    <use href="{{ asset('assets/svg/icon-sprite.svg#stroke-form') }}"></use>
+                                    <use href="{{ asset('import/svg/icon-sprite.svg#stroke-form') }}"></use>
                                 </svg>
                                 <svg class="fill-icon">
-                                    <use href="{{ asset('assets/svg/icon-sprite.svg#fill-form') }}"></use>
+                                    <use href="{{ asset('import/svg/icon-sprite.svg#fill-form') }}"></use>
                                 </svg>
                                 <span>Form UMKM</span>
                             </a>

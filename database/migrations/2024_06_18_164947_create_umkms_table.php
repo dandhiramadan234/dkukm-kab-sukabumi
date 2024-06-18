@@ -48,6 +48,7 @@ return new class extends Migration
             $table->json('kemitraan');
             $table->string('pelatihan');
             $table->string('status_umkm');
+            $table->string('gen');
             $table->timestamps();
             $table->softDeletes();
         });

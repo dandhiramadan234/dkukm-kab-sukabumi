@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin\Form;
 
+use Carbon\Carbon;
 use App\Models\Umkm;
 use Livewire\Component;
 use Livewire\Attributes\Title;
@@ -137,6 +138,14 @@ class FormCreateUmkm extends Component
         DB::beginTransaction();
 
         try {
+            $tanggalLahir = Carbon::parse($this->tanggal_lahir);
+            $umur = $tanggalLahir->age;
+            if ($umur < 40) {
+                $gen = 'milenial';
+            } else {
+                $gen = 'non-milenial';
+            }
+
             $create = Umkm::create([
                 'nama_umkm' => $this->nama_umkm,
                 'nama_pemilik' => $this->nama_pemilik,
@@ -173,6 +182,7 @@ class FormCreateUmkm extends Component
                 'kemitraan' => json_encode($this->kemitraan),
                 'pelatihan' => $this->pelatihan,
                 'status_umkm' => $this->status_umkm,
+                'gen' => $gen,
             ]);
 
             DB::commit();
@@ -182,7 +192,6 @@ class FormCreateUmkm extends Component
                 'title' => 'Data berhasil disimpan!',
                 'route' => route('form-create-umkm'),
             ]);
-
         } catch (Throwable $th) {
             DB::rollBack();
             session()->flash('error', 'Terjadi kesalahan: ' . $th->getMessage());
