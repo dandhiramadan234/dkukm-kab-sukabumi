@@ -34,6 +34,7 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/vendors/scrollbar.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/vendors/animate.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/vendors/prism.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/vendors/sweetalert2.css') }}">
     <!-- Plugins css Ends-->
     <!-- Bootstrap css-->
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/vendors/bootstrap.css') }}">
@@ -101,11 +102,32 @@
     <script src="{{ asset('assets/js/typeahead/typeahead.custom.js') }}"></script>
     <script src="{{ asset('assets/js/typeahead-search/handlebars.js') }}"></script>
     <script src="{{ asset('assets/js/typeahead-search/typeahead-custom.js') }}"></script>
+    <script src="{{ asset('assets/js/sweet-alert/sweetalert.min.js') }}"></script>
     <!-- Plugins JS Ends-->
     <!-- Theme js-->
     <script src="{{ asset('assets/js/script.js') }}"></script>
     <script src="{{ asset('assets/js/script1.js') }}"></script>
     <!-- Plugin used-->
+
+    <script>
+        document.addEventListener('livewire:init', function() {
+            Livewire.on('swal:success', param => {
+                if (Array.isArray(param) && param.length > 0) {
+                    param = param[0];
+                }
+
+                console.log(param);
+                Swal.fire({
+                    icon: param.type,
+                    title: param.title,
+                    text: param.text,
+                }).then(() => {
+                    window.location.href = param.route;
+                });
+            });
+        });
+    </script>
+
     @livewireScripts
 </body>
 
