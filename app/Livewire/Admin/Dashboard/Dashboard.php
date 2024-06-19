@@ -121,7 +121,7 @@ class Dashboard extends Component
         $query = Umkm::query();
 
         if ($this->search) {
-            $query->where('nama_umkm', 'like', '%' . $this->search . '%');
+            $query->search($this->search);
         }
 
         if ($this->jenisSektorFilter) {

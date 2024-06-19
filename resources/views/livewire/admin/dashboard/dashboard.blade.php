@@ -9,7 +9,7 @@
                             <h2>{{ currency_format($totalData) }}</h2>
                             <p class="mb-0 text-truncate">Data UMKM</p>
                         </div>
-                        <div class="flex-shrink-0"><img src="{{ asset('assets/images/dashboard-4/icon/invoice.png') }}"
+                        <div class="flex-shrink-0"><img src="{{ asset('import/images/dashboard-4/icon/invoice.png') }}"
                                 alt="">
                         </div>
                     </div>
@@ -24,7 +24,7 @@
                             <h2>{{ currency_format($totalTenagaKerjaTetap) }}</h2>
                             <p class="mb-0 text-truncate">Tenaga Kerja Tetap</p>
                         </div>
-                        <div class="flex-shrink-0"><img src="{{ asset('assets/images/dashboard-4/icon/invoice.png') }}"
+                        <div class="flex-shrink-0"><img src="{{ asset('import/images/dashboard-4/icon/invoice.png') }}"
                                 alt="">
                         </div>
                     </div>
@@ -39,7 +39,7 @@
                             <h2>{{ currency_format($totalTenagaKerjaLepas) }}</h2>
                             <p class="mb-0 text-truncate">Tenaga Kerja Lepas</p>
                         </div>
-                        <div class="flex-shrink-0"><img src="{{ asset('assets/images/dashboard-4/icon/invoice.png') }}"
+                        <div class="flex-shrink-0"><img src="{{ asset('import/images/dashboard-4/icon/invoice.png') }}"
                                 alt="">
                         </div>
                     </div>

@@ -73,7 +73,7 @@ class FormUpdateUmkm extends Component
         $this->jenis_usaha = $umkm->jenis_usaha;
         $this->bentuk_hukum_perusahaan = $umkm->bentuk_hukum_perusahaan;
         $this->no_ijin_usaha = $umkm->no_ijin_usaha;
-        $this->kepemilikan_ijin_usaha = json_decode($umkm->kepemilikan_ijin_usaha);
+        $this->kepemilikan_ijin_usaha = json_decode($umkm->kepemilikan_ijin_usaha, true) ?? [];
         $this->tenaga_kerja_tetap_perempuan = $umkm->tenaga_kerja_tetap_perempuan;
         $this->tenaga_kerja_tetap_laki_laki = $umkm->tenaga_kerja_tetap_laki_laki;
         $this->tenaga_kerja_lepas_perempuan = $umkm->tenaga_kerja_lepas_perempuan;
@@ -87,8 +87,8 @@ class FormUpdateUmkm extends Component
         $this->asset_tanah_bangunan = $umkm->asset_tanah_bangunan;
         $this->asset_mesin_peralatan = $umkm->asset_mesin_peralatan;
         $this->asset_kendaraan = $umkm->asset_kendaraan;
-        $this->daerah_pemasaran = json_decode($umkm->daerah_pemasaran);
-        $this->kemitraan = json_decode($umkm->kemitraan);
+        $this->daerah_pemasaran = json_decode($umkm->daerah_pemasaran, true) ?? [];
+        $this->kemitraan = json_decode($umkm->kemitraan, true) ?? [];
         $this->pelatihan = $umkm->pelatihan;
         $this->status_umkm = $umkm->status_umkm;
     }

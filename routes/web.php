@@ -7,6 +7,7 @@ use App\Livewire\Admin\Setting\Satuan;
 use App\Livewire\Admin\Form\FormCreateUmkm;
 use App\Livewire\Admin\Form\FormUpdateUmkm;
 use App\Livewire\Admin\User\UserManagement;
+use App\Livewire\Admin\Export\DataUmkmExport;
 use App\Livewire\Admin\Dashboard\Dashboard as DashboardAdmin;
 
 /*
@@ -28,6 +29,7 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
     Route::get('/dashboard', DashboardAdmin::class)->name('dashboard-admin');
     Route::get('/form-create-umkm', FormCreateUmkm::class)->name('form-create-umkm');
     Route::get('/form-update-umkm/{id}', FormUpdateUmkm::class)->name('form-update-umkm');
+    Route::get('/export', DataUmkmExport::class)->name('data-umkm-export');
     Route::get('/satuan', Satuan::class)->name('satuan');
     Route::get('/user-management', UserManagement::class)->name('user-management');
     
