@@ -3,6 +3,7 @@
 use App\Livewire\Auth\Login;
 use App\Http\Controllers\Auth\Logout;
 use Illuminate\Support\Facades\Route;
+use App\Livewire\Admin\Setting\Satuan;
 use App\Livewire\Admin\Form\FormCreateUmkm;
 use App\Livewire\Admin\Form\FormUpdateUmkm;
 use App\Livewire\Admin\Dashboard\Dashboard as DashboardAdmin;
@@ -26,7 +27,7 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
     Route::get('/dashboard', DashboardAdmin::class)->name('dashboard-admin');
     Route::get('/form-create-umkm', FormCreateUmkm::class)->name('form-create-umkm');
     Route::get('/form-update-umkm/{id}', FormUpdateUmkm::class)->name('form-update-umkm');
-
+    Route::get('/satuan', Satuan::class)->name('satuan');
     
     Route::post('/logout', [Logout::class, 'logout'])->name('logout');
 });

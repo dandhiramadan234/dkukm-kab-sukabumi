@@ -4,8 +4,10 @@ namespace App\Livewire\Admin\Form;
 
 use Carbon\Carbon;
 use App\Models\Umkm;
+use App\Models\Satuan;
 use Livewire\Component;
 use Livewire\Attributes\Title;
+use Livewire\Attributes\Computed;
 use Illuminate\Support\Facades\DB;
 
 #[Title('Form Create UMKM')]
@@ -46,6 +48,12 @@ class FormCreateUmkm extends Component
     public $kemitraan = [];
     public $pelatihan;
     public $status_umkm = 'active';
+
+    #[Computed]
+    public function satuan()
+    {
+        return Satuan::get();
+    }
 
     public function store()
     {

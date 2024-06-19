@@ -250,8 +250,9 @@
                                 class="form-select form-select-md  @error('satuan_volume_produksi') is-invalid @enderror"
                                 aria-label=".form-select-md example">
                                 <option label="Pilih Satuan Volume Produksi"> </option>
-                                <option value="unit">Unit</option>
-                                <option value="pcs">Pcs</option>
+                                @foreach ($this->satuan as $satuan)
+                                    <option value="{{ $satuan->description }}">{{ $satuan->description }}</option>
+                                @endforeach
                             </select>
                             @error('satuan_volume_produksi')
                                 <div class="invalid-tooltip">{{ $message }}</div>

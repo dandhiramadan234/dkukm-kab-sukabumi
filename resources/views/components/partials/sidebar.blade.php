@@ -59,6 +59,18 @@
                                 <span>Form UMKM</span>
                             </a>
                         </li>
+                        <li class="sidebar-list">
+                            <i class="fa fa-thumb-tack"> </i>
+                            <a class="sidebar-link sidebar-title link-nav" href="/satuan">
+                                <svg class="stroke-icon">
+                                    <use href="{{ asset('import/svg/icon-sprite.svg#stroke-form') }}"></use>
+                                </svg>
+                                <svg class="fill-icon">
+                                    <use href="{{ asset('import/svg/icon-sprite.svg#fill-form') }}"></use>
+                                </svg>
+                                <span>Satuan</span>
+                            </a>
+                        </li>
                     </ul>
                 </div>
                 <div class="right-arrow" id="right-arrow"><i data-feather="arrow-right"></i></div>

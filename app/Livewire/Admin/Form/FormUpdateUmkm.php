@@ -4,8 +4,10 @@ namespace App\Livewire\Admin\Form;
 
 use Carbon\Carbon;
 use App\Models\Umkm;
+use App\Models\Satuan;
 use Livewire\Component;
 use Livewire\Attributes\Title;
+use Livewire\Attributes\Computed;
 use Illuminate\Support\Facades\DB;
 
 #[Title('Form Update UMKM')]
@@ -89,6 +91,12 @@ class FormUpdateUmkm extends Component
         $this->kemitraan = json_decode($umkm->kemitraan);
         $this->pelatihan = $umkm->pelatihan;
         $this->status_umkm = $umkm->status_umkm;
+    }
+
+    #[Computed]
+    public function satuan()
+    {
+        return Satuan::get();
     }
 
     public function store()
