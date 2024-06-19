@@ -51,17 +51,17 @@
                         </li>
                         <li class="profile-nav onhover-dropdown px-0 py-0">
                             <div class="d-flex profile-media align-items-center">
-                                <img class="img-30" src="../import/images/dashboard/profile.png" alt="">
+                                <img class="img-30" src="{{ asset('import/images/dashboard/profile.png') }}" alt="">
                                 <div class="flex-grow-1"><span>{{ Auth::user()->name }}</span>
                                     <p class="mb-0 font-outfit">{{ Auth::user()->role }}<i class="fa fa-angle-down"></i></p>
                                 </div>
                             </div>
                             <ul class="profile-dropdown onhover-show-div">
-                                <li>
+                                {{-- <li>
                                     <a href="../template/private-chat.html">
                                         <i data-feather="user"></i><span>Account </span>
                                     </a>
-                                </li>
+                                </li> --}}
                                 <li>
                                     <form action="{{ route('logout') }}" method="post">
                                         @csrf
