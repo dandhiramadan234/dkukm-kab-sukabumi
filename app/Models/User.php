@@ -44,4 +44,14 @@ class User extends Authenticatable
     {
         return $this->attributes['role'];
     }
+
+    public function scopeSearch($query, $term)
+    {
+        return $query->where(function ($query) use ($term) {
+            $query
+                ->where('name', 'like', '%' . $term . '%')
+                ->orWhere('username', 'like', '%' . $term . '%')
+                ->orWhere('role', 'like', '%' . $term . '%');
+        });
+    }
 }

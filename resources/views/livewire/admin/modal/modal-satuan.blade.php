@@ -5,7 +5,7 @@
         <div class="modal-dialog modal-dialog-scrollable modal-xl" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Details UMKM </h4>
+                    <h4 class="modal-title">Details Satuan </h4>
                     <button class="btn-close" type="button" wire:click="$dispatch('close-modal-satuan')"
                         aria-label="Close"></button>
                 </div>
