@@ -177,10 +177,8 @@
                                                             Details
                                                         </button>
                                                     </li>
-                                                    <li><a class="dropdown-item" href="#!">Update</a>
-                                                    </li>
-                                                    <li><a class="dropdown-item" href="#!">Delete</a>
-                                                    </li>
+                                                    <li><a class="dropdown-item" href="{{ route('form-update-umkm', ['id' => $umkm->id]) }}">Update</a></li>
+
                                                 </ul>
                                             </div>
                                         </td>

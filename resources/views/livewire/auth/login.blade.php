@@ -7,9 +7,9 @@
                     <div class="login-main">
                         <div>
                             <a class="logo" href="index.html">
-                                <img class="img-fluid for-light" src="{{ asset('assets/images/logo/logo.png') }}"
+                                <img class="img-fluid for-light" src="{{ asset('import/images/logo/logo.png') }}"
                                     alt="looginpage">
-                                <img class="img-fluid for-dark" src="{{ asset('assets/images/logo/logo_dark.png') }}"
+                                <img class="img-fluid for-dark" src="{{ asset('import/images/logo/logo_dark.png') }}"
                                     alt="looginpage">
                                 <p>Kabupaten Sukabumi</p>
                             </a>
