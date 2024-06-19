@@ -153,15 +153,14 @@
                                         <td>{{ $umkm->jenis_usaha }}</td>
                                         <td>
                                             @if ($umkm->status_umkm == 'active')
-                                                <div class="d-flex align-item-center justify-content-center flex-start">
-                                                    <i class="bg-light-success font-success"
-                                                        data-feather="check-circle"></i>
-                                                    <span class="font-success">Active</span>
+                                                <div class="status-box">
+                                                    <div class="btn background-light-success font-success f-w-500">
+                                                        Active</div>
                                                 </div>
                                             @else
-                                                <div class="d-flex align-item-center justify-content-center flex-start">
-                                                    <i class="bg-light-danger font-danger" data-feather="x-circle"></i>
-                                                    <span class="font-danger">Inactive</span>
+                                                <div class="status-box">
+                                                    <div class="btn background-light-danger font-danger f-w-500">
+                                                        Inactive</div>
                                                 </div>
                                             @endif
                                         </td>
