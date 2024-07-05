@@ -17,11 +17,13 @@ class UmkmExport implements FromQuery, WithHeadings, WithMapping
 {
     protected $jenisUsaha;
     protected $jenisSektor;
+    protected $kecamatan;
 
-    public function __construct($jenisUsaha = null, $jenisSektor = null)
+    public function __construct($jenisUsaha = null, $jenisSektor = null, $kecamatan = null)
     {
         $this->jenisUsaha = $jenisUsaha;
         $this->jenisSektor = $jenisSektor;
+        $this->kecamatan = $kecamatan;
     }
 
     public function query()
@@ -34,6 +36,10 @@ class UmkmExport implements FromQuery, WithHeadings, WithMapping
 
         if ($this->jenisSektor) {
             $query->where('jenis_sektor', $this->jenisSektor);
+        }
+
+        if ($this->kecamatan) {
+            $query->where('kecamatan', $this->kecamatan);
         }
 
         return $query;

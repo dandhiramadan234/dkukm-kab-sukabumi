@@ -15,7 +15,7 @@
                 <div class="card-body">
                     <form wire:submit.prevent="export">
                         <div class="row">
-                            <div class="col-md-5">
+                            <div class="col-md-3">
                                 <label class="form-label" for="Jenis Sektor">Jenis Sektor</label>
                                 <select wire:model.live.debounce.250ms="jenis_sektor"
                                     class="form-select form-select-md  @error('jenis_sektor') is-invalid @enderror"
@@ -34,7 +34,7 @@
                                     <div class="invalid-tooltip">{{ $message }}</div>
                                 @enderror
                             </div>
-                            <div class="col-md-5">
+                            <div class="col-md-3">
                                 <label class="form-label" for="Jenis Usaha">Jenis Usaha</label>
                                 <select wire:model.live.debounce.250ms="jenis_usaha"
                                     class="form-select form-select-md  @error('jenis_usaha') is-invalid @enderror"
@@ -58,7 +58,21 @@
                                     <div class="invalid-tooltip">{{ $message }}</div>
                                 @enderror
                             </div>
-                            <div class="col-md-2">
+                            <div class="col-md-3">
+                                <label class="form-label" for="Kecamatan">Kecamatan</label>
+                                <select wire:model.live.debounce.250ms="kecamatan"
+                                    class="form-select form-select-md  @error('kecamatan') is-invalid @enderror"
+                                    aria-label=".form-select-md example">
+                                    <option label="Pilih Kecamatan"> </option>
+                                    @foreach ($this->kecamatans as $item)
+                                        <option value="{{ $item->kecamatan }}">{{ $item->kecamatan }}</option>
+                                    @endforeach
+                                </select>
+                                @error('kecamatan')
+                                    <div class="invalid-tooltip">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="col-md-3">
                                 <label class="form-label" for="Actions">Actions</label>
                                 <div class="form-group">
                                     <button class="btn bg-success font-white f-w-500" type="submit">Export

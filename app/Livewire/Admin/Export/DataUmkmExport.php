@@ -10,6 +10,7 @@ use Livewire\Attributes\Title;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Models\Kecamatan;
 
 #[Title('Export Data UMKM')]
 class DataUmkmExport extends Component
@@ -25,6 +26,7 @@ class DataUmkmExport extends Component
 
     public $jenis_sektor;
     public $jenis_usaha;
+    public $kecamatan;
 
     public function render()
     {
@@ -33,10 +35,10 @@ class DataUmkmExport extends Component
 
     public function export()
     {
-        $timestamp = Carbon::now()->format('Ymd_His'); // Format the current timestamp
-        $filename = 'umkm_' . $timestamp . '.xlsx'; // Concatenate the filename with the timestamp
+        $timestamp = Carbon::now()->format('Ymd_His');
+        $filename = 'umkm_' . $timestamp . '.xlsx'; 
 
-        return Excel::download(new UmkmExport($this->jenis_usaha, $this->jenis_sektor), $filename);
+        return Excel::download(new UmkmExport($this->jenis_usaha, $this->jenis_sektor, $this->kecamatan), $filename);
     }
 
     #[Computed]
@@ -56,6 +58,16 @@ class DataUmkmExport extends Component
             $query->where('jenis_usaha', $this->jenis_usaha);
         }
 
+        if ($this->kecamatan) {
+            $query->where('kecamatan', $this->kecamatan);
+        }
+
         return $query->paginate($this->paginate);
+    }
+
+    #[Computed]
+    public function kecamatans()
+    {
+        return Kecamatan::get();
     }
 }
