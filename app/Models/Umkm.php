@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Models\Product;
+use App\Models\Document;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -25,6 +27,7 @@ class Umkm extends Model
                 ->where('nama_umkm', 'like', $term)
                 ->orWhere('nama_pemilik', 'like', $term)
                 ->orWhere('nik', 'like', $term)
+                ->orWhere('nomor_kartu_keluarga', 'like', $term)
                 ->orWhere('no_handphone', 'like', $term)
                 ->orWhere('email', 'like', $term)
                 ->orWhere('tempat_lahir', 'like', $term)
@@ -61,5 +64,15 @@ class Umkm extends Model
         });
 
         return $query;
+    }
+
+    public function documents()
+    {
+        return $this->hasMany(Document::class);
+    }
+
+    public function products()
+    {
+        return $this->hasMany(Product::class);
     }
 }
