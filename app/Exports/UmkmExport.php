@@ -3,12 +3,17 @@
 namespace App\Exports;
 
 use App\Models\Umkm;
+use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\WithMapping;
+use Maatwebsite\Excel\Concerns\WithDrawings;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
+// use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
 
 class UmkmExport implements FromQuery, WithHeadings, WithMapping
+// class UmkmExport implements FromQuery, WithHeadings, WithMapping, WithDrawings, ShouldAutoSize
 {
     protected $jenisUsaha;
     protected $jenisSektor;
@@ -21,7 +26,7 @@ class UmkmExport implements FromQuery, WithHeadings, WithMapping
 
     public function query()
     {
-        $query = Umkm::query();
+        $query = Umkm::with(['products', 'documents'])->newQuery();
 
         if ($this->jenisUsaha) {
             $query->where('jenis_usaha', $this->jenisUsaha);
@@ -37,25 +42,43 @@ class UmkmExport implements FromQuery, WithHeadings, WithMapping
     public function headings(): array
     {
         return [
-            'ID',
             'Nama UMKM',
             'Nama Pemilik',
             'NIK',
+            'Nomor Kartu Keluarga',
             'No Handphone',
             'Email',
             'Tempat Lahir',
             'Tanggal Lahir',
             'Umur',
+            'Gen',
             'Jenis Kelamin',
             'Status Perkawinan',
             'Pendidikan',
             'Alamat Rumah',
             'Alamat Usaha',
+            'Kecamatan (Usaha)',
+            'Kelurahan/Desa (Usaha)',
+            'Kabupaten/Kota (Usaha)',
+            'Provinsi (Usaha)',
             'Jenis Sektor',
             'Jenis Usaha',
+            'Jenis Usaha Lainnya',
             'Bentuk Hukum Perusahaan',
-            'No Ijin Usaha',
-            'Kepemilikan Ijin Usaha',
+            'NPWP',
+            'Nomor NPWP',
+            'NIB',
+            'Nomor NIB',
+            'PIRT',
+            'Nomor PIRT',
+            'Halal',
+            'Nomor Halal',
+            'SNI',
+            'Nomor SNI',
+            'BPOM',
+            'Nomor BPOM',
+            'HKI',
+            'Nomor HKI',
             'Tenaga Kerja Tetap Perempuan',
             'Tenaga Kerja Tetap Laki-Laki',
             'Tenaga Kerja Lepas Perempuan',
@@ -65,6 +88,7 @@ class UmkmExport implements FromQuery, WithHeadings, WithMapping
             'Satuan Volume Produksi',
             'Omzet Penjualan',
             'Quantity Penjualan',
+            'Kategori Usaha',
             'Keuntungan Bersih',
             'Asset Tanah Bangunan',
             'Asset Mesin Peralatan',
@@ -72,17 +96,15 @@ class UmkmExport implements FromQuery, WithHeadings, WithMapping
             'Daerah Pemasaran',
             'Kemitraan',
             'Pelatihan',
+            'Jenis Pelatihan',
             'Status UMKM',
-            'Gen',
-            'Created At',
-            'Updated At',
-            'Deleted At',
+            'Produk',
+            // 'Document',
         ];
     }
 
     public function map($umkm): array
     {
-        $ijinUsaha = json_decode($umkm->kepemilikan_ijin_usaha, true);
         $daerahPemasaran = json_decode($umkm->daerah_pemasaran, true);
         $pemasaran = [];
         if ($daerahPemasaran) {
@@ -102,27 +124,47 @@ class UmkmExport implements FromQuery, WithHeadings, WithMapping
                 }
             }
         }
+        
+        $products = $umkm->products ? $umkm->products->pluck('nama_produk')->toArray() : [];
 
         return [
-            $umkm->id,
             $umkm->nama_umkm,
             $umkm->nama_pemilik,
             $umkm->nik,
+            $umkm->nomor_kartu_keluarga,
             $umkm->no_handphone,
             $umkm->email,
             $umkm->tempat_lahir,
             $umkm->tanggal_lahir,
             $umkm->umur,
+            $umkm->gen,
             $umkm->jenis_kelamin,
             $umkm->status_perkawinan,
             $umkm->pendidikan,
             $umkm->alamat_rumah,
             $umkm->alamat_usaha,
+            $umkm->kecamatan,
+            $umkm->kelurahan_desa,
+            $umkm->kabupaten_kota,
+            $umkm->provinsi,
             $umkm->jenis_sektor,
             $umkm->jenis_usaha,
+            $umkm->jenis_usaha_lainnya,
             $umkm->bentuk_hukum_perusahaan,
-            $umkm->no_ijin_usaha,
-            implode(', ', $ijinUsaha),
+            $umkm->npwp,
+            $umkm->nomor_npwp,
+            $umkm->nib,
+            $umkm->nomor_nib,
+            $umkm->pirt,
+            $umkm->nomor_pirt,
+            $umkm->halal,
+            $umkm->nomor_halal,
+            $umkm->sni,
+            $umkm->nomor_sni,
+            $umkm->bpom,
+            $umkm->nomor_bpom,
+            $umkm->hki,
+            $umkm->nomor_hki,
             $umkm->tenaga_kerja_tetap_perempuan,
             $umkm->tenaga_kerja_tetap_laki_laki,
             $umkm->tenaga_kerja_lepas_perempuan,
@@ -132,6 +174,7 @@ class UmkmExport implements FromQuery, WithHeadings, WithMapping
             $umkm->satuan_volume_produksi,
             $umkm->omzet_penjualan,
             $umkm->quantity_penjualan,
+            $umkm->kategori_usaha,
             $umkm->keuntungan_bersih,
             $umkm->asset_tanah_bangunan,
             $umkm->asset_mesin_peralatan,
@@ -139,11 +182,36 @@ class UmkmExport implements FromQuery, WithHeadings, WithMapping
             implode(', ', $pemasaran),
             implode(', ', $kemitraan),
             $umkm->pelatihan,
+            $umkm->jenis_pelatihan,
             $umkm->status_umkm,
-            $umkm->gen,
-            $umkm->created_at,
-            $umkm->updated_at,
-            $umkm->deleted_at,
+            implode(', ', $products),
         ];
     }
+
+    // public function drawings()
+    // {
+    //     $drawings = [];
+    //     $umkms = $this->query()->get();
+
+    //     foreach ($umkms as $key => $umkm) {
+    //         foreach ($umkm->documents as $index => $document) {
+    //             // Mendapatkan path file menggunakan Storage Laravel
+    //             $filePath = Storage::disk('local')->path($document->file_path . '/' . $document->file_name);
+                
+    //             // Cek apakah file tersebut ada
+    //             if (file_exists($filePath)) {
+    //                 $drawing = new Drawing();
+    //                 $drawing->setName($document->file_name);
+    //                 $drawing->setDescription($document->file_name);
+    //                 $drawing->setPath($filePath);
+    //                 $drawing->setHeight(50);
+    //                 $drawing->setCoordinates('BF' . ($key + 2 + $index)); // Sesuaikan kolom dan baris sesuai kebutuhan
+    //                 $drawings[] = $drawing;
+    //             }
+    //         }
+    //     }
+
+    //     return $drawings;
+    // }
+
 }
