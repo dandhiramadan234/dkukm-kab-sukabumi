@@ -61,7 +61,7 @@
                         </li>
                         <li class="sidebar-list">
                             <i class="fa fa-thumb-tack"> </i>
-                            <a class="sidebar-link sidebar-title link-nav" href="/export">
+                            <a class="sidebar-link sidebar-title link-nav" href="/export-data">
                                 <svg class="stroke-icon">
                                     <use href="{{ asset('import/svg/icon-sprite.svg#stroke-form') }}"></use>
                                 </svg>
@@ -69,6 +69,18 @@
                                     <use href="{{ asset('import/svg/icon-sprite.svg#fill-form') }}"></use>
                                 </svg>
                                 <span>Export</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-list">
+                            <i class="fa fa-thumb-tack"> </i>
+                            <a class="sidebar-link sidebar-title link-nav" href="/import-data">
+                                <svg class="stroke-icon">
+                                    <use href="{{ asset('import/svg/icon-sprite.svg#stroke-form') }}"></use>
+                                </svg>
+                                <svg class="fill-icon">
+                                    <use href="{{ asset('import/svg/icon-sprite.svg#fill-form') }}"></use>
+                                </svg>
+                                <span>Import</span>
                             </a>
                         </li>
                         <li class="sidebar-list">

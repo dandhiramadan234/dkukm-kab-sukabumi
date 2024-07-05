@@ -1,7 +1,5 @@
 <div>
     {{-- If your happiness depends on money, you will never be happy with yourself. --}}
-
-
     <div class="row">
         <div class="col-xl-12 col-md-12">
             <div class="card">
