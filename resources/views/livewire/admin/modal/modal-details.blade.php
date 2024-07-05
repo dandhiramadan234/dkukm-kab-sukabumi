@@ -34,6 +34,12 @@
                                     </li>
                                     <li class="list-group-item">
                                         <div class="d-flex justify-content-between">
+                                            <span>Nomor Kartu Keluarga</span>
+                                            <span>{{ $umkm->nomor_kartu_keluarga }}</span>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <div class="d-flex justify-content-between">
                                             <span>No. Handphone/Telephone</span>
                                             <span>{{ $umkm->no_handphone }}</span>
                                         </div>
@@ -88,6 +94,30 @@
                                     </li>
                                     <li class="list-group-item">
                                         <div class="d-flex justify-content-between">
+                                            <span>Kecamatan (Usaha)</span>
+                                            <span>{{ $umkm->kecamatan }}</span>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <div class="d-flex justify-content-between">
+                                            <span>Kelurahan/Desa (Usaha)</span>
+                                            <span>{{ $umkm->kelurahan_desa }}</span>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <div class="d-flex justify-content-between">
+                                            <span>Kabupaten/Kota (Usaha)</span>
+                                            <span>{{ $umkm->kabupaten_kota }}</span>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <div class="d-flex justify-content-between">
+                                            <span>Provinsi</span>
+                                            <span>{{ $umkm->provinsi }}</span>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <div class="d-flex justify-content-between">
                                             <span>Jenis Sektor</span>
                                             <span>{{ $umkm->jenis_sektor }}</span>
                                         </div>
@@ -96,6 +126,12 @@
                                         <div class="d-flex justify-content-between">
                                             <span>Jenis Usaha</span>
                                             <span>{{ $umkm->jenis_usaha }}</span>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <div class="d-flex justify-content-between">
+                                            <span>Jenis Usaha Lainnya</span>
+                                            <span>{{ $umkm->jenis_usaha_lainnya }}</span>
                                         </div>
                                     </li>
                                     <li class="list-group-item">
@@ -112,35 +148,47 @@
                                     </li>
                                     <li class="list-group-item">
                                         <div class="d-flex justify-content-between">
-                                            <span>Bentuk Hukum Perusahaan</span>
-                                            <span>{{ $umkm->bentuk_hukum_perusahaan }}</span>
+                                            <span>Jenis Pelatihan</span>
+                                            <span>{{ $umkm->jenis_pelatihan }}</span>
                                         </div>
                                     </li>
                                     <li class="list-group-item">
                                         <div class="d-flex justify-content-between">
-                                            <span>No Ijin Usaha</span>
-                                            <span>{{ $umkm->no_ijin_usaha ?? '-' }}</span>
+                                            <span>Bentuk Hukum Perusahaan</span>
+                                            <span>{{ $umkm->bentuk_hukum_perusahaan }}</span>
                                         </div>
                                     </li>
                                 </ul>
                             </div>
                             <div class="col-md-6">
-                                <ul class="list-group">                                    
+                                <ul class="list-group">
                                     <li class="list-group-item">
-                                        <div class="d-flex justify-content-between">
-                                            @if (isset($kepemilikan_ijin_usaha))
-                                                <span>
-                                                    Ijin Usaha yang dimiliki <br>
-                                                    @foreach ($kepemilikan_ijin_usaha as $item)
-                                                        {{ $loop->iteration }} .
-                                                        {{ $item }} <br>
-                                                    @endforeach
-                                                </span>
-                                            @else
-                                                <span>
-                                                    Ijin Usaha yang dimiliki -</span>
-                                            @endif
-                                        </div>
+                                        @if (isset($kepemilikan_ijin_usaha))
+                                            Ijin Usaha yang dimiliki
+                                            <div class="table-responsive theme-scrollbar signal-table">
+                                                <table class="table table-hover">
+                                                    <thead>
+                                                        <tr>
+                                                            <th scope="col">No</th>
+                                                            <th scope="col">Ijin Usaha</th>
+                                                            <th scope="col">Nomor</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach ($kepemilikan_ijin_usaha as $ijin_usaha)
+                                                            <tr>
+                                                                <td>{{ $loop->iteration }}</td>
+                                                                <td>{{ $ijin_usaha['jenis'] }}</td>
+                                                                <td>{{ $ijin_usaha['nomor'] }}</td>
+                                                            </tr>
+                                                        @endforeach
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        @else
+                                            <span>
+                                                Ijin Usaha yang dimiliki -</span>
+                                        @endif
                                     </li>
                                     <li class="list-group-item">
                                         <div class="d-flex justify-content-between">
@@ -193,6 +241,12 @@
                                     </li>
                                     <li class="list-group-item">
                                         <div class="d-flex justify-content-between">
+                                            <span>Kategori Usaha</span>
+                                            <span>{{ $umkm->kategori_usaha }}</span>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <div class="d-flex justify-content-between">
                                             <span>
                                                 Total Asset <br>
                                                 1. Tanah & Bangunan : Rp.
@@ -235,7 +289,39 @@
                                             @endif
                                         </div>
                                     </li>
+                                    <li class="list-group-item">
+                                        <div class="d-flex justify-content-between">
+                                            @if (isset($produk))
+                                                <span>
+                                                    Produk <br>
+                                                    @foreach ($produk as $item)
+                                                        {{ $loop->iteration }} .
+                                                        {{ $item->nama_produk }} <br>
+                                                    @endforeach
+                                                </span>
+                                            @else
+                                                <span>
+                                                    Ijin Usaha yang dimiliki -</span>
+                                            @endif
+                                        </div>
+                                    </li>
                                 </ul>
+                            </div>
+                            <div class="col-md-12 mt-3">
+                                <span>Foto Produk</span>
+                                <div class="card-body row mt-2">
+                                    @if (count($document_produk) > 0)
+                                        @foreach ($document_produk as $document)
+                                            <div class="col-xl-3 col-md-4 col-6">
+                                                @if (Storage::disk('local')->exists($document->file_path . '/' . $document->file_name))
+                                                    <img src="{{ asset(Storage::url($document->file_path . '/' . $document->file_name)) }}"
+                                                        alt="{{ $document->file_name }}"
+                                                        class="w-100 object-fit-cover mb-3">
+                                                @endif
+                                            </div>
+                                        @endforeach
+                                    @endif
+                                </div>
                             </div>
                         </div>
                     @endif

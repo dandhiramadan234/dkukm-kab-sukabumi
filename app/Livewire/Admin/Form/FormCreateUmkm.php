@@ -395,6 +395,7 @@ class FormCreateUmkm extends Component
                 'satuan_volume_produksi' => $this->satuan_volume_produksi,
                 'omzet_penjualan' => currency_convert($this->omzet_penjualan),
                 'quantity_penjualan' => currency_convert($this->quantity_penjualan),
+                'kategori_usaha' => $this->kategori_usaha,
                 'keuntungan_bersih' => currency_convert($this->keuntungan_bersih),
                 'asset_tanah_bangunan' => currency_convert($this->asset_tanah_bangunan),
                 'asset_mesin_peralatan' => currency_convert($this->asset_mesin_peralatan),
