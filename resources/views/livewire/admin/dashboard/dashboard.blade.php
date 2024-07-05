@@ -21,8 +21,8 @@
                 <div class="card-body student-2">
                     <div class="d-flex gap-2 align-items-end">
                         <div class="flex-grow-1">
-                            <h2>{{ currency_format($totalTenagaKerjaTetap) }}</h2>
-                            <p class="mb-0 text-truncate">Tenaga Kerja Tetap</p>
+                            <h2>{{ currency_format($totalAgroIndustri) }}</h2>
+                            <p class="mb-0 text-truncate">Sektor Agro Industri</p>
                         </div>
                         <div class="flex-shrink-0"><img src="{{ asset('import/images/dashboard-4/icon/invoice.png') }}"
                                 alt="">
@@ -36,8 +36,8 @@
                 <div class="card-body student-3">
                     <div class="d-flex gap-2 align-items-end">
                         <div class="flex-grow-1">
-                            <h2>{{ currency_format($totalTenagaKerjaLepas) }}</h2>
-                            <p class="mb-0 text-truncate">Tenaga Kerja Lepas</p>
+                            <h2>{{ currency_format($totalPariwisata) }}</h2>
+                            <p class="mb-0 text-truncate">Sektor Pariwisata</p>
                         </div>
                         <div class="flex-shrink-0"><img src="{{ asset('import/images/dashboard-4/icon/invoice.png') }}"
                                 alt="">
@@ -87,14 +87,20 @@
                         <div class="d-flex justify-content-between">
                             <h4>Data</h4>
                         </div>
-                        <div class="d-flex justify-content-between">
-                            <select class="form-select" aria-label="10" wire:model.live.debounce.250ms="paginate">
-                                <option label="View"></option>
-                                <option value="10">10</option>
-                                <option value="20">20</option>
-                                <option value="50">50</option>
-                                <option value="100">100</option>
-                            </select>
+                        <div class="d-flex justify-content-between align-items-end">
+                            <div class="col-md-4 me-2">
+                                <select class="form-select" aria-label="10" wire:model.live.debounce.250ms="paginate">
+                                    <option label="View"></option>
+                                    <option value="10">10</option>
+                                    <option value="20">20</option>
+                                    <option value="50">50</option>
+                                    <option value="100">100</option>
+                                </select>
+                            </div>
+                            <div class="col-md-8">
+                                <input class="form-control" type="text" placeholder="Search"
+                                    wire:model.live.debounce.250ms="search">
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -106,6 +112,7 @@
                                     <th scope="col">Nama UMKM</th>
                                     <th scope="col">Jenis Sektor</th>
                                     <th scope="col">Jenis Usaha</th>
+                                    <th scope="col">Kecamatan </th>
                                     <th scope="col">Status Usaha </th>
                                     <th scope="col">Actions</th>
                                 </tr>
@@ -113,8 +120,6 @@
                             <tbody>
                                 <tr>
                                     <td>
-                                        <input class="form-control" type="text" placeholder="Search"
-                                            wire:model.live.debounce.250ms="search">
                                     </td>
                                     <td>
                                         <select class="form-select" aria-label="Search Jenis Sektor"
@@ -137,13 +142,15 @@
                                         </select>
                                     </td>
                                     <td>
-                                        <select class="form-select" aria-label="Search Status Usaha"
-                                            wire:model.live.debounce.250ms="statusUmkm">
-                                            <option label="Search Status Usaha"></option>
-                                            <option value="active">Active</option>
-                                            <option value="inactive">Inactive</option>
+                                        <select class="form-select" aria-label="Search Jenis Usaha"
+                                            wire:model.live.debounce.250ms="kecamatan">
+                                            <option label="Search Kecamatan"></option>
+                                            @foreach ($this->kecamatans as $item)
+                                                <option value="{{ $item->kecamatan }}">{{ $item->kecamatan }}</option>
+                                            @endforeach
                                         </select>
                                     </td>
+                                    <td></td>
                                     <td></td>
                                 </tr>
                                 @forelse ($this->umkm as $umkm)
@@ -151,6 +158,7 @@
                                         <td>{{ $umkm->nama_umkm }}</td>
                                         <td>{{ $umkm->jenis_sektor }}</td>
                                         <td>{{ $umkm->jenis_usaha }}</td>
+                                        <td>{{ $umkm->kecamatan }}</td>
                                         <td>
                                             @if ($umkm->status_umkm == 'active')
                                                 <div class="status-box">
@@ -176,7 +184,9 @@
                                                             Details
                                                         </button>
                                                     </li>
-                                                    <li><a class="dropdown-item" href="{{ route('form-update-umkm', ['id' => $umkm->id]) }}">Update</a></li>
+                                                    <li><a class="dropdown-item"
+                                                            href="{{ route('form-update-umkm', ['id' => $umkm->id]) }}">Update</a>
+                                                    </li>
 
                                                 </ul>
                                             </div>

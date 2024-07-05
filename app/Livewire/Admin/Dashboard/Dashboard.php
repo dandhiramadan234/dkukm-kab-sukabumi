@@ -2,11 +2,12 @@
 
 namespace App\Livewire\Admin\Dashboard;
 
+use App\Models\Kecamatan;
 use App\Models\Umkm;
+use Livewire\Attributes\Computed;
+use Livewire\Attributes\Title;
 use Livewire\Component;
 use Livewire\WithPagination;
-use Livewire\Attributes\Title;
-use Livewire\Attributes\Computed;
 
 #[Title('Dashboard')]
 class Dashboard extends Component
@@ -17,13 +18,13 @@ class Dashboard extends Component
     public $search = '';
     public $jenisSektorFilter = '';
     public $jenisSektorUsaha = '';
-    public $statusUmkm = '';
+    public $kecamatan = '';
 
     protected $updatesQueryString = [
         'search' => ['except' => ''],
         'jenisSektorFilter' => ['except' => ''],
         'jenisSektorUsaha' => ['except' => ''],
-        'statusUmkm' => ['except' => ''],
+        'kecamatan' => ['except' => ''],
     ];
 
     public function updatingSearch()
@@ -41,12 +42,15 @@ class Dashboard extends Component
         $this->resetPage();
     }
 
-    public function updatingStatusUmkm()
+    public function updatingKecamatan()
     {
         $this->resetPage();
     }
 
     public $totalData;
+    public $totalAgroIndustri;
+    public $totalPariwisata;
+
     public $totalTenagaKerjaTetap;
     public $totalTenagaKerjaTetapPerempuan;
     public $totalTenagaKerjaTetapLakiLaki;
@@ -64,6 +68,8 @@ class Dashboard extends Component
         $umkm = Umkm::get();
 
         $this->totalData = $umkm->count();
+        $this->totalAgroIndustri = Umkm::where('jenis_sektor', 'agro industri')->count();
+        $this->totalPariwisata = Umkm::where('jenis_sektor', 'pariwisata')->count();
 
         $this->totalTenagaKerjaTetapPerempuan = $umkm->sum('tenaga_kerja_tetap_perempuan');
         $this->totalTenagaKerjaTetapLakiLaki = $umkm->sum('tenaga_kerja_tetap_laki_laki');
@@ -132,8 +138,8 @@ class Dashboard extends Component
             $query->where('jenis_usaha', $this->jenisSektorUsaha);
         }
 
-        if ($this->statusUmkm) {
-            $query->where('status_umkm', $this->statusUmkm);
+        if ($this->kecamatan) {
+            $query->where('kecamatan', $this->kecamatan);
         }
 
         return $query->paginate($this->paginate);
@@ -149,6 +155,12 @@ class Dashboard extends Component
     public function jenisUsaha()
     {
         return Umkm::select('jenis_usaha')->distinct()->get();
+    }
+
+    #[Computed]
+    public function kecamatans()
+    {
+        return Kecamatan::get();
     }
 
     public function render()
