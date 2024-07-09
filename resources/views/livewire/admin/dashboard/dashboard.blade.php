@@ -50,13 +50,24 @@
         <div class="col-xl-4 col-md-12">
             <div class="card">
                 <div class="card-header">
+                    <h4>Chart Kecamatan</h4>
+                </div>
+                <div class="card-body" wire:ignore>
+                    <canvas id="chartKecamatan"></canvas>
+                </div>
+            </div>
+        </div>
+
+        {{-- <div class="col-xl-4 col-md-12">
+            <div class="card">
+                <div class="card-header">
                     <h4>Chart Tenaga Kerja</h4>
                 </div>
                 <div class="card-body" wire:ignore>
                     <canvas id="chartTenagaKerja"></canvas>
                 </div>
             </div>
-        </div>
+        </div> --}}
 
         <div class="col-xl-4 col-md-12">
             <div class="card">
@@ -76,6 +87,39 @@
                 </div>
                 <div class="card-body" wire:ignore>
                     <canvas id="chartJenisSektor"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-4 col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4>Chart Kategori Usaha</h4>
+                </div>
+                <div class="card-body" wire:ignore>
+                    <canvas id="chartKategoriUsaha"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-4 col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4>Chart Gen Pemilik UMKM</h4>
+                </div>
+                <div class="card-body" wire:ignore>
+                    <canvas id="chartGenerasi"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-4 col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4>Chart Gender Pemilik UMKM</h4>
+                </div>
+                <div class="card-body" wire:ignore>
+                    <canvas id="chartGender"></canvas>
                 </div>
             </div>
         </div>
@@ -210,6 +254,25 @@
 @push('scripts')
     <script src="{{ asset('import/js/chart/chartjs/chart.js') }}"></script>
     <script>
+        const ctxKecamatan = document.getElementById('chartKecamatan').getContext('2d');
+        new Chart(ctxKecamatan, {
+            type: 'pie',
+            data: {
+                labels: @json($chartDataKecamatan['labels']),
+                datasets: @json($chartDataKecamatan['datasets'])
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                    }
+                }
+            }
+        });
+    </script>
+    {{-- <script>
         const ctxTenagaKerja = document.getElementById('chartTenagaKerja').getContext('2d');
         new Chart(ctxTenagaKerja, {
             type: 'pie',
@@ -227,7 +290,7 @@
                 }
             }
         });
-    </script>
+    </script> --}}
     <script>
         const ctxJenisUsaha = document.getElementById('chartJenisUsaha').getContext('2d');
         new Chart(ctxJenisUsaha, {
@@ -254,6 +317,63 @@
             data: {
                 labels: @json($chartDataJenisSektor['labels']),
                 datasets: @json($chartDataJenisSektor['datasets'])
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                    }
+                }
+            }
+        });
+    </script>
+    <script>
+        const ctxKategoriUsaha = document.getElementById('chartKategoriUsaha').getContext('2d');
+        new Chart(ctxKategoriUsaha, {
+            type: 'pie',
+            data: {
+                labels: @json($chartDataKategoriUsaha['labels']),
+                datasets: @json($chartDataKategoriUsaha['datasets'])
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                    }
+                }
+            }
+        });
+    </script>
+    <script>
+        const ctxGenerasi = document.getElementById('chartGenerasi').getContext('2d');
+        new Chart(ctxGenerasi, {
+            type: 'pie',
+            data: {
+                labels: @json($chartDataGenerasi['labels']),
+                datasets: @json($chartDataGenerasi['datasets'])
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                    }
+                }
+            }
+        });
+    </script>
+    <script>
+        const ctxGender = document.getElementById('chartGender').getContext('2d');
+        new Chart(ctxGender, {
+            type: 'pie',
+            data: {
+                labels: @json($chartDataGender['labels']),
+                datasets: @json($chartDataGender['datasets'])
             },
             options: {
                 responsive: true,

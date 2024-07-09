@@ -51,17 +51,21 @@ class Dashboard extends Component
     public $totalAgroIndustri;
     public $totalPariwisata;
 
-    public $totalTenagaKerjaTetap;
-    public $totalTenagaKerjaTetapPerempuan;
-    public $totalTenagaKerjaTetapLakiLaki;
+    // public $totalTenagaKerjaTetap;
+    // public $totalTenagaKerjaTetapPerempuan;
+    // public $totalTenagaKerjaTetapLakiLaki;
 
-    public $totalTenagaKerjaLepas;
-    public $totalTenagaKerjaLepasPerempuan;
-    public $totalTenagaKerjaLepasLakiLaki;
+    // public $totalTenagaKerjaLepas;
+    // public $totalTenagaKerjaLepasPerempuan;
+    // public $totalTenagaKerjaLepasLakiLaki;
 
-    public $chartDataTenagaKerja;
+    public $chartDataKecamatan;
+    // public $chartDataTenagaKerja;
     public $chartDataJenisUsaha;
     public $chartDataJenisSektor;
+    public $chartDataKategoriUsaha;
+    public $chartDataGenerasi;
+    public $chartDataGender;
 
     public function mount()
     {
@@ -71,22 +75,38 @@ class Dashboard extends Component
         $this->totalAgroIndustri = Umkm::where('jenis_sektor', 'agro industri')->count();
         $this->totalPariwisata = Umkm::where('jenis_sektor', 'pariwisata')->count();
 
-        $this->totalTenagaKerjaTetapPerempuan = $umkm->sum('tenaga_kerja_tetap_perempuan');
-        $this->totalTenagaKerjaTetapLakiLaki = $umkm->sum('tenaga_kerja_tetap_laki_laki');
-        $this->totalTenagaKerjaTetap = $this->totalTenagaKerjaTetapPerempuan + $this->totalTenagaKerjaTetapLakiLaki;
+        $kecamatan = Umkm::distinct('kecamatan')->pluck('kecamatan');
+        $data = [];
+        foreach ($kecamatan as $kecamatan_usaha) {
+            $jumlah = Umkm::where('kecamatan', $kecamatan_usaha)->count();
+            $data[] = $jumlah;
+        }
 
-        $this->totalTenagaKerjaLepasPerempuan = $umkm->sum('tenaga_kerja_lepas_perempuan');
-        $this->totalTenagaKerjaLepasLakiLaki = $umkm->sum('tenaga_kerja_lepas_laki_laki');
-        $this->totalTenagaKerjaLepas = $this->totalTenagaKerjaLepasPerempuan + $this->totalTenagaKerjaLepasLakiLaki;
-
-        $this->chartDataTenagaKerja = [
-            'labels' => ['Tenaga Kerja Tetap Perempuan', 'Tenaga Kerja Tetap Laki-Laki', 'Tenaga Kerja Lepas Perempuan', 'Tenaga Kerja Lepas Laki-Laki'],
+        $this->chartDataKecamatan = [
+            'labels' => $kecamatan,
             'datasets' => [
                 [
-                    'data' => [$this->totalTenagaKerjaTetapPerempuan, $this->totalTenagaKerjaTetapLakiLaki, $this->totalTenagaKerjaLepasPerempuan, $this->totalTenagaKerjaLepasLakiLaki],
+                    'data' => $data,
                 ],
             ],
         ];
+
+        // $this->totalTenagaKerjaTetapPerempuan = $umkm->sum('tenaga_kerja_tetap_perempuan');
+        // $this->totalTenagaKerjaTetapLakiLaki = $umkm->sum('tenaga_kerja_tetap_laki_laki');
+        // $this->totalTenagaKerjaTetap = $this->totalTenagaKerjaTetapPerempuan + $this->totalTenagaKerjaTetapLakiLaki;
+
+        // $this->totalTenagaKerjaLepasPerempuan = $umkm->sum('tenaga_kerja_lepas_perempuan');
+        // $this->totalTenagaKerjaLepasLakiLaki = $umkm->sum('tenaga_kerja_lepas_laki_laki');
+        // $this->totalTenagaKerjaLepas = $this->totalTenagaKerjaLepasPerempuan + $this->totalTenagaKerjaLepasLakiLaki;
+
+        // $this->chartDataTenagaKerja = [
+        //     'labels' => ['Tenaga Kerja Tetap Perempuan', 'Tenaga Kerja Tetap Laki-Laki', 'Tenaga Kerja Lepas Perempuan', 'Tenaga Kerja Lepas Laki-Laki'],
+        //     'datasets' => [
+        //         [
+        //             'data' => [$this->totalTenagaKerjaTetapPerempuan, $this->totalTenagaKerjaTetapLakiLaki, $this->totalTenagaKerjaLepasPerempuan, $this->totalTenagaKerjaLepasLakiLaki],
+        //         ],
+        //     ],
+        // ];
 
         $jenisUsaha = Umkm::distinct('jenis_usaha')->pluck('jenis_usaha');
         $data = [];
@@ -110,9 +130,57 @@ class Dashboard extends Component
             $jumlah = Umkm::where('jenis_sektor', $jenis)->count();
             $data[] = $jumlah;
         }
-        
+
         $this->chartDataJenisSektor = [
             'labels' => $jenisSektor,
+            'datasets' => [
+                [
+                    'data' => $data,
+                ],
+            ],
+        ];
+
+        $kategoriUsaha = Umkm::distinct('kategori_usaha')->pluck('kategori_usaha');
+        $data = [];
+        foreach ($kategoriUsaha as $kateogri_usaha) {
+            $jumlah = Umkm::where('kategori_usaha', $kateogri_usaha)->count();
+            $data[] = $jumlah;
+        }
+
+        $this->chartDataKategoriUsaha = [
+            'labels' => $kategoriUsaha,
+            'datasets' => [
+                [
+                    'data' => $data,
+                ],
+            ],
+        ];
+        
+        $generasi = Umkm::distinct('gen')->pluck('gen');
+        $data = [];
+        foreach ($generasi as $generasi_usaha) {
+            $jumlah = Umkm::where('gen', $generasi_usaha)->count();
+            $data[] = $jumlah;
+        }
+
+        $this->chartDataGenerasi = [
+            'labels' => $generasi,
+            'datasets' => [
+                [
+                    'data' => $data,
+                ],
+            ],
+        ];
+
+        $gender = Umkm::distinct('jenis_kelamin')->pluck('jenis_kelamin');
+        $data = [];
+        foreach ($gender as $gender_usaha) {
+            $jumlah = Umkm::where('jenis_kelamin', $gender_usaha)->count();
+            $data[] = $jumlah;
+        }
+
+        $this->chartDataGender = [
+            'labels' => $gender,
             'datasets' => [
                 [
                     'data' => $data,
