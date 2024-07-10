@@ -26,6 +26,8 @@ Route::group(['middleware' => 'guest'], function () {
     Route::get('/', Login::class)->name('login');
 });
 
+Route::post('/logout', [Logout::class, 'logout'])->name('logout');
+
 Route::group(['middleware' => ['auth', 'role:admin']], function () {
     Route::get('/dashboard', DashboardAdmin::class)->name('dashboard-admin');
     Route::get('/form-create-umkm', FormCreateUmkm::class)->name('form-create-umkm');
@@ -34,8 +36,10 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
     Route::get('/import-data', DataUmkmImport::class)->name('data-umkm-import');
     Route::get('/satuan', Satuan::class)->name('satuan');
     Route::get('/user-management', UserManagement::class)->name('user-management');
-    
-    Route::post('/logout', [Logout::class, 'logout'])->name('logout');
+});
+
+Route::group(['middleware' => ['auth', 'role:user']], function () {
+    Route::get('/form-create-umkm-user', FormCreateUmkm::class)->name('form-create-umkm-user');
 });
 
 Route::get('/unauthorized', function () {

@@ -31,7 +31,12 @@ class Login extends Component
         if (Auth::attempt(['username' => $this->username, 'password' => $this->password])) {
             // Determine the user's role and redirect to the appropriate dashboard
             $user = Auth::user();
-            return redirect()->route('dashboard-admin');
+
+            if ($user->role == 'admin') {
+                return redirect()->route('dashboard-admin');
+            } else {
+                return redirect()->route('form-create-umkm-user');
+            }
         }
 
         session()->flash('error', 'Username/password Salah.');
