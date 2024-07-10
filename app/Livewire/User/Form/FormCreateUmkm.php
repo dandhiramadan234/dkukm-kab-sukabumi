@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Admin\Form;
+namespace App\Livewire\User\Form;
 
 use Carbon\Carbon;
 use App\Models\Umkm;
@@ -450,7 +450,7 @@ class FormCreateUmkm extends Component
             $this->dispatch('swal:success', [
                 'type' => 'success',
                 'title' => 'Data berhasil disimpan!',
-                'route' => route('form-create-umkm'),
+                'route' => route('form-create-umkm-user'),
             ]);
         } catch (Throwable $th) {
             DB::rollBack();
@@ -505,6 +505,6 @@ class FormCreateUmkm extends Component
 
     public function render()
     {
-        return view('livewire.admin.form.form-create-umkm');
+        return view('livewire.user.form.form-create-umkm');
     }
 }

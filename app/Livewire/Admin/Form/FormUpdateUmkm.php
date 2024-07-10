@@ -9,6 +9,7 @@ use App\Models\Product;
 use Livewire\Component;
 use App\Models\Document;
 use App\Models\Kecamatan;
+use App\Models\Pelatihan;
 use Livewire\WithFileUploads;
 use Livewire\Attributes\Title;
 use Livewire\Attributes\Computed;
@@ -183,6 +184,12 @@ class FormUpdateUmkm extends Component
     public function kecamatans()
     {
         return Kecamatan::get();
+    }
+
+    #[Computed]
+    public function pelatihans()
+    {
+        return Pelatihan::get();
     }
 
     public function updatedUsaha()

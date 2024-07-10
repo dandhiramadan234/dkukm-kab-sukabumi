@@ -545,10 +545,16 @@
                                     <input class="form-check-input" id="V" type="radio" name="pelatihan"
                                         value="V" wire:model.live="pelatihan">
                                     <label class="form-check-label" for="V">Ya</label>
-                                    <input type="text"
-                                        class="form-control @error('jenis_pelatihan') is-invalid @enderror"
-                                        wire:model.defer="jenis_pelatihan" placeholder="Jenis Pelatihan"
-                                        @if ($pelatihan != 'V') disabled @endif />
+                                    <select wire:model.defer="jenis_pelatihan"
+                                        class="form-select form-select-md  @error('jenis_pelatihan') is-invalid @enderror"
+                                        aria-label=".form-select-md example"
+                                        @if ($pelatihan != 'V') disabled @endif>
+                                        <option label="Pilih Jenis Pelatihan"> </option>
+                                        @foreach ($this->pelatihans as $item)
+                                            <option value="{{ $item->description }}">{{ $item->description }}
+                                            </option>
+                                        @endforeach
+                                    </select>
                                 </div>
                                 <div class="form-check mt-3">
                                     <input class="form-check-input" id="X" type="radio" name="pelatihan"
