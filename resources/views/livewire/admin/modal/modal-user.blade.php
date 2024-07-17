@@ -43,6 +43,7 @@
                                 aria-label=".form-select-md example">
                                 <option label="Pilih Role"></option>
                                 <option value="admin">Admin</option>
+                                <option value="user">User</option>
                             </select>
                             @error('role')
                                 <div class="invalid-tooltip">{{ $message }}</div>
