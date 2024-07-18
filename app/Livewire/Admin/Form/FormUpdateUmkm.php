@@ -15,7 +15,7 @@ use Livewire\Attributes\Title;
 use Livewire\Attributes\Computed;
 use Illuminate\Support\Facades\DB;
 
-#[Title('Form Create UMKM')]
+#[Title('Form Update UMKM')]
 class FormUpdateUmkm extends Component
 {
     use WithFileUploads;
@@ -72,13 +72,22 @@ class FormUpdateUmkm extends Component
     public $asset_tanah_bangunan;
     public $asset_mesin_peralatan;
     public $asset_kendaraan;
-    public $daerah_pemasaran = [];
+    public $pembiayaan;
+    public $sumber_pembiayaan;
     public $kemitraan = [];
     public $nama_produk = [];
     public $document_produk = [];
+    public $document_umkm = [];
     public $pelatihan;
     public $jenis_pelatihan;
     public $status_umkm;
+
+    public $lokal = false;
+    public $lintas_kabupaten_kota = false;
+    public $lintas_provinsi = false;
+    public $export = false;
+    public $online = false;
+    public $pemasaran_online;
 
     public $current_document_produk = [];
 
@@ -125,7 +134,6 @@ class FormUpdateUmkm extends Component
         $this->nomor_bpom = $umkm->nomor_bpom;
         $this->hki = $umkm->hki == 'V' ? true : false;
         $this->nomor_hki = $umkm->nomor_hki;
-
         $this->tenaga_kerja_tetap_perempuan = $umkm->tenaga_kerja_tetap_perempuan;
         $this->tenaga_kerja_tetap_laki_laki = $umkm->tenaga_kerja_tetap_laki_laki;
         $this->tenaga_kerja_lepas_perempuan = $umkm->tenaga_kerja_lepas_perempuan;
@@ -140,11 +148,18 @@ class FormUpdateUmkm extends Component
         $this->asset_tanah_bangunan = $umkm->asset_tanah_bangunan;
         $this->asset_mesin_peralatan = $umkm->asset_mesin_peralatan;
         $this->asset_kendaraan = $umkm->asset_kendaraan;
-        $this->daerah_pemasaran = json_decode($umkm->daerah_pemasaran, true) ?? [];
+        $this->lokal = $umkm->lokal == 'V' ? true : false;
+        $this->lintas_kabupaten_kota = $umkm->lintas_kabupaten_kota == 'V' ? true : false;
+        $this->lintas_provinsi = $umkm->lintas_provinsi == 'V' ? true : false;
+        $this->export = $umkm->export == 'V' ? true : false;
+        $this->online = $umkm->online == 'V' ? true : false;
+        $this->pemasaran_online = $umkm->pemasaran_online;
         $this->kemitraan = json_decode($umkm->kemitraan, true) ?? [];
         $this->pelatihan = $umkm->pelatihan;
         $this->jenis_pelatihan = $umkm->jenis_pelatihan;
         $this->status_umkm = $umkm->status_umkm;
+        $this->pembiayaan = $umkm->pembiayaan;
+        $this->sumber_pembiayaan = $umkm->sumber_pembiayaan;
 
         $data_nama_produk = Product::where('umkm_id', $id)->get();
 
@@ -167,6 +182,7 @@ class FormUpdateUmkm extends Component
                     'id' => $document->id,
                     'file_name' => $document->file_name,
                     'file_path' => $document->file_path,
+                    'file_type' => $document->file_type,
                 ];
 
                 $this->current_document_produk[] = $data;
@@ -248,10 +264,24 @@ class FormUpdateUmkm extends Component
         }
     }
 
+    public function updatedOnline()
+    {
+        if (!$this->online) {
+            $this->pemasaran_online = null;
+        }
+    }
+
     public function updatedPelatihan()
     {
         if ($this->pelatihan == 'X') {
             $this->jenis_pelatihan = null;
+        }
+    }
+
+    public function updatedPembiayaan()
+    {
+        if ($this->pembiayaan == 'X') {
+            $this->sumber_pembiayaan = null;
         }
     }
 
@@ -290,8 +320,7 @@ class FormUpdateUmkm extends Component
                 'quantity_penjualan' => 'required',
                 'kategori_usaha' => 'required',
                 'keuntungan_bersih' => 'required',
-                'daerah_pemasaran' => 'required|array|min:1',
-                'daerah_pemasaran.*.daerah_pemasaran' => 'required',
+                'pembiayaan' => 'required',
                 'kemitraan' => 'required|array|min:1',
                 'kemitraan.*.kemitraan' => 'required',
                 'nama_produk' => 'required|array|min:1',
@@ -334,9 +363,7 @@ class FormUpdateUmkm extends Component
                 'quantity_penjualan.required' => 'Quantity Penjualan harus diisi.',
                 'kategori_usaha.required' => 'Kategori Usaha harus diisi.',
                 'keuntungan_bersih.required' => 'Keuntungan Bersih harus diisi.',
-                'daerah_pemasaran.required' => 'Data daerah pemasaran harus diisi.',
-                'daerah_pemasaran.min' => 'Data daerah pemasaran harus memiliki setidaknya satu item.',
-                'daerah_pemasaran.*.daerah_pemasaran.required' => 'Data daerah pemasaran harus diisi.',
+                'pembiayaan.required' => 'Pembiayaan harus diisi.',
                 'kemitraan.required' => 'Data kemitraan harus diisi.',
                 'kemitraan.min' => 'Data kemitraan harus memiliki setidaknya satu item.',
                 'kemitraan.*.kemitraan.required' => 'Data kemitraan harus diisi.',
@@ -436,6 +463,28 @@ class FormUpdateUmkm extends Component
             );
         }
 
+        if ($this->online) {
+            $this->validate(
+                [
+                    'pemasaran_online' => 'required',
+                ],
+                [
+                    'pemasaran_online.required' => 'Pemsaran Online harus diisi.',
+                ],
+            );
+        }
+
+        if ($this->pembiayaan == 'V') {
+            $this->validate(
+                [
+                    'sumber_pembiayaan' => 'required',
+                ],
+                [
+                    'sumber_pembiayaan.required' => 'Pembiayaan harus diisi.',
+                ],
+            );
+        }
+
         if ($this->pelatihan == 'V') {
             $this->validate(
                 [
@@ -502,7 +551,14 @@ class FormUpdateUmkm extends Component
                 'asset_tanah_bangunan' => currency_convert($this->asset_tanah_bangunan),
                 'asset_mesin_peralatan' => currency_convert($this->asset_mesin_peralatan),
                 'asset_kendaraan' => currency_convert($this->asset_kendaraan),
-                'daerah_pemasaran' => json_encode($this->daerah_pemasaran),
+                'lokal' => $this->lokal ? 'V' : 'X',
+                'lintas_kabupaten_kota' => $this->lintas_kabupaten_kota ? 'V' : 'X',
+                'lintas_provinsi' => $this->lintas_provinsi ? 'V' : 'X',
+                'export' => $this->export ? 'V' : 'X',
+                'online' => $this->online ? 'V' : 'X',
+                'pemasaran_online' => $this->pemasaran_online,
+                'pembiayaan' => $this->pembiayaan,
+                'sumber_pembiayaan' => $this->sumber_pembiayaan,
                 'kemitraan' => json_encode($this->kemitraan),
                 'pelatihan' => $this->pelatihan,
                 'jenis_pelatihan' => $this->jenis_pelatihan,
@@ -546,6 +602,30 @@ class FormUpdateUmkm extends Component
                         'umkm_id' => $this->id,
                         'file_name' => $fileName,
                         'file_path' => $folder,
+                        'file_type' => 'produk',
+                    ]);
+                }
+            }
+
+            if (count($this->document_umkm) > 0) {
+                $folder = 'public/' . $this->nama_umkm;
+
+                foreach ($this->document_umkm as $file) {
+                    $lastDotPosition = strrpos($file->getClientOriginalName(), '.');
+                    $extension = substr($file->getClientOriginalName(), $lastDotPosition + 1);
+
+                    $uniqueId = uniqid();
+                    $fileName = 'file-umkm-' . $uniqueId . '.' . $extension;
+
+                    //file upload local
+                    $file->storeAs($folder, $fileName);
+                    //end file upload local
+
+                    Document::create([
+                        'umkm_id' => $this->id,
+                        'file_name' => $fileName,
+                        'file_path' => $folder,
+                        'file_type' => 'umkm',
                     ]);
                 }
             }

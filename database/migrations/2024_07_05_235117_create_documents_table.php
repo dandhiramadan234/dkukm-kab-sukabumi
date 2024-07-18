@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreign('umkm_id')->references('id')->on('umkms')->onDelete('cascade');
             $table->string('file_name');
             $table->string('file_path');
+            $table->string('file_type');
             $table->timestamps();
             $table->softDeletes();
         });

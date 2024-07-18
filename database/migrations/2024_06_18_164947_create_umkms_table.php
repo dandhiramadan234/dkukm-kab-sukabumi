@@ -63,7 +63,14 @@ return new class extends Migration {
             $table->string('asset_tanah_bangunan')->nullable();
             $table->string('asset_mesin_peralatan')->nullable();
             $table->string('asset_kendaraan')->nullable();
-            $table->json('daerah_pemasaran')->nullable();
+            $table->string('lokal')->nullable();
+            $table->string('lintas_kabupaten_kota')->nullable();
+            $table->string('lintas_provinsi')->nullable();
+            $table->string('export')->nullable();
+            $table->string('online')->nullable();
+            $table->string('pemasaran_online')->nullable();
+            $table->string('pembiayaan')->nullable();
+            $table->string('sumber_pembiayaan')->nullable();
             $table->json('kemitraan')->nullable();
             $table->string('pelatihan')->nullable();
             $table->string('jenis_pelatihan')->nullable();

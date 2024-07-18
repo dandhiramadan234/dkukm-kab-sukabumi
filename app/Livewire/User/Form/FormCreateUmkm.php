@@ -71,13 +71,22 @@ class FormCreateUmkm extends Component
     public $asset_tanah_bangunan;
     public $asset_mesin_peralatan;
     public $asset_kendaraan;
-    public $daerah_pemasaran = [];
+    public $pembiayaan;
+    public $sumber_pembiayaan;
     public $kemitraan = [];
     public $nama_produk = [];
     public $document_produk = [];
+    public $document_umkm = [];
     public $pelatihan;
     public $jenis_pelatihan;
     public $status_umkm = 'active';
+
+    public $lokal = false;
+    public $lintas_kabupaten_kota = false;
+    public $lintas_provinsi = false;
+    public $export = false;
+    public $online = false;
+    public $pemasaran_online;
 
     #[Computed]
     public function satuan()
@@ -153,10 +162,24 @@ class FormCreateUmkm extends Component
         }
     }
 
+    public function updatedOnline()
+    {
+        if (!$this->online) {
+            $this->pemasaran_online = null;
+        }
+    }
+
     public function updatedPelatihan()
     {
         if ($this->pelatihan == 'X') {
             $this->jenis_pelatihan = null;
+        }
+    }
+
+    public function updatedPembiayaan()
+    {
+        if ($this->pembiayaan == 'X') {
+            $this->sumber_pembiayaan = null;
         }
     }
 
@@ -195,13 +218,11 @@ class FormCreateUmkm extends Component
                 'quantity_penjualan' => 'required',
                 'kategori_usaha' => 'required',
                 'keuntungan_bersih' => 'required',
-                'daerah_pemasaran' => 'required|array|min:1',
-                'daerah_pemasaran.*.daerah_pemasaran' => 'required',
+                'pembiayaan' => 'required',
                 'kemitraan' => 'required|array|min:1',
                 'kemitraan.*.kemitraan' => 'required',
                 'nama_produk' => 'required|array|min:1',
                 'nama_produk.*.nama_produk' => 'required',
-                'document_produk' => 'required|max:102400',
                 'pelatihan' => 'required',
             ],
             [
@@ -239,16 +260,13 @@ class FormCreateUmkm extends Component
                 'quantity_penjualan.required' => 'Quantity Penjualan harus diisi.',
                 'kategori_usaha.required' => 'Kategori Usaha harus diisi.',
                 'keuntungan_bersih.required' => 'Keuntungan Bersih harus diisi.',
-                'daerah_pemasaran.required' => 'Data daerah pemasaran harus diisi.',
-                'daerah_pemasaran.min' => 'Data daerah pemasaran harus memiliki setidaknya satu item.',
-                'daerah_pemasaran.*.daerah_pemasaran.required' => 'Data daerah pemasaran harus diisi.',
+                'pembiayaan.required' => 'Pembiayaan harus diisi.',
                 'kemitraan.required' => 'Data kemitraan harus diisi.',
                 'kemitraan.min' => 'Data kemitraan harus memiliki setidaknya satu item.',
                 'kemitraan.*.kemitraan.required' => 'Data kemitraan harus diisi.',
                 'nama_produk.required' => 'Data Nama Produk harus diisi.',
                 'nama_produk.min' => 'Data Nama Produk harus memiliki setidaknya satu item.',
                 'nama_produk.*.nama_produk.required' => 'Data Nama Produk harus diisi.',
-                'document_produk.required' => 'Foto Produk harus diisi.',
                 'pelatihan.required' => 'Pelatihan harus diisi.',
             ],
         );
@@ -341,6 +359,28 @@ class FormCreateUmkm extends Component
             );
         }
 
+        if ($this->online) {
+            $this->validate(
+                [
+                    'pemasaran_online' => 'required',
+                ],
+                [
+                    'pemasaran_online.required' => 'Pemsaran Online harus diisi.',
+                ],
+            );
+        }
+
+        if ($this->pembiayaan == 'V') {
+            $this->validate(
+                [
+                    'sumber_pembiayaan' => 'required',
+                ],
+                [
+                    'sumber_pembiayaan.required' => 'Pembiayaan harus diisi.',
+                ],
+            );
+        }
+
         if ($this->pelatihan == 'V') {
             $this->validate(
                 [
@@ -407,7 +447,14 @@ class FormCreateUmkm extends Component
                 'asset_tanah_bangunan' => currency_convert($this->asset_tanah_bangunan),
                 'asset_mesin_peralatan' => currency_convert($this->asset_mesin_peralatan),
                 'asset_kendaraan' => currency_convert($this->asset_kendaraan),
-                'daerah_pemasaran' => json_encode($this->daerah_pemasaran),
+                'lokal' => $this->lokal ? 'V' : 'X',
+                'lintas_kabupaten_kota' => $this->lintas_kabupaten_kota ? 'V' : 'X',
+                'lintas_provinsi' => $this->lintas_provinsi ? 'V' : 'X',
+                'export' => $this->export ? 'V' : 'X',
+                'online' => $this->online ? 'V' : 'X',
+                'pemasaran_online' => $this->pemasaran_online,
+                'pembiayaan' => $this->pembiayaan,
+                'sumber_pembiayaan' => $this->sumber_pembiayaan,
                 'kemitraan' => json_encode($this->kemitraan),
                 'pelatihan' => $this->pelatihan,
                 'jenis_pelatihan' => $this->jenis_pelatihan,
@@ -441,6 +488,29 @@ class FormCreateUmkm extends Component
                         'umkm_id' => $create->id,
                         'file_name' => $fileName,
                         'file_path' => $folder,
+                        'file_type' => 'produk',
+                    ]);
+                }
+            }
+            if (count($this->document_umkm) > 0) {
+                $folder = 'public/' . $this->nama_umkm;
+
+                foreach ($this->document_umkm as $file) {
+                    $lastDotPosition = strrpos($file->getClientOriginalName(), '.');
+                    $extension = substr($file->getClientOriginalName(), $lastDotPosition + 1);
+
+                    $uniqueId = uniqid();
+                    $fileName = 'file-umkm-' . $uniqueId . '.' . $extension;
+
+                    //file upload local
+                    $file->storeAs($folder, $fileName);
+                    //end file upload local
+
+                    Document::create([
+                        'umkm_id' => $create->id,
+                        'file_name' => $fileName,
+                        'file_path' => $folder,
+                        'file_type' => 'umkm',
                     ]);
                 }
             }

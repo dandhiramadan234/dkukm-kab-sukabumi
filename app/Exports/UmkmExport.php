@@ -99,7 +99,14 @@ class UmkmExport implements FromQuery, WithHeadings, WithMapping
             'Asset Tanah Bangunan',
             'Asset Mesin Peralatan',
             'Asset Kendaraan',
-            'Daerah Pemasaran',
+            'Jangkauan Pemasaran (Lokal)',
+            'Jangkauan Pemasaran (Lintas Kabupaten/Kota)',
+            'Jangkauan Pemasaran (Lintas Provinsi)',
+            'Jangkauan Pemasaran (Export)',
+            'Jangkauan Pemasaran (Online)',
+            'Keterangan Pemasaran (Online)',
+            'Pembiayaan',
+            'Sumber Pembiayaan',
             'Kemitraan',
             'Pelatihan',
             'Jenis Pelatihan',
@@ -111,16 +118,6 @@ class UmkmExport implements FromQuery, WithHeadings, WithMapping
 
     public function map($umkm): array
     {
-        $daerahPemasaran = json_decode($umkm->daerah_pemasaran, true);
-        $pemasaran = [];
-        if ($daerahPemasaran) {
-            foreach ($daerahPemasaran as $item) {
-                if (isset($item['daerah_pemasaran'])) {
-                    $pemasaran[] = $item['daerah_pemasaran'];
-                }
-            }
-        }
-
         $kemitraanJson = json_decode($umkm->kemitraan, true);
         $kemitraan = [];
         if ($kemitraanJson) {
@@ -184,8 +181,15 @@ class UmkmExport implements FromQuery, WithHeadings, WithMapping
             $umkm->keuntungan_bersih,
             $umkm->asset_tanah_bangunan,
             $umkm->asset_mesin_peralatan,
-            $umkm->asset_kendaraan,           
-            implode(', ', $pemasaran),
+            $umkm->asset_kendaraan,    
+            $umkm->lokal,
+            $umkm->lintas_kabupaten_kota,
+            $umkm->lintas_provinsi,
+            $umkm->export,
+            $umkm->online,
+            $umkm->pemasaran_online,
+            $umkm->pembiayaan,
+            $umkm->sumber_pembiayaan,
             implode(', ', $kemitraan),
             $umkm->pelatihan,
             $umkm->jenis_pelatihan,

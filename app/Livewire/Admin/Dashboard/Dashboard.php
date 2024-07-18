@@ -47,25 +47,53 @@ class Dashboard extends Component
         $this->resetPage();
     }
 
+    public $filterKecamatan = 'all';
+
     public $totalData;
     public $totalAgroIndustri;
     public $totalPariwisata;
 
-    // public $totalTenagaKerjaTetap;
-    // public $totalTenagaKerjaTetapPerempuan;
-    // public $totalTenagaKerjaTetapLakiLaki;
+    public $lokal;
+    public $lintas_kabupaten_kota;
+    public $lintas_provinsi;
+    public $export;
+    public $online;
 
-    // public $totalTenagaKerjaLepas;
-    // public $totalTenagaKerjaLepasPerempuan;
-    // public $totalTenagaKerjaLepasLakiLaki;
+    public $fashion;
+    public $kerajinan;
+    public $periklanan;
+    public $desain;
+    public $arsitektur;
+    public $pasar_seni;
+    public $drama;
+    public $pengembangan_perangkat_lunak;
+    public $kuliner;
+    public $seni_rupa;
+    public $perfilman;
+    public $budidaya;
+    public $fotografi;
+    public $lainnya;
 
-    public $chartDataKecamatan;
-    // public $chartDataTenagaKerja;
-    public $chartDataJenisUsaha;
-    public $chartDataJenisSektor;
-    public $chartDataKategoriUsaha;
-    public $chartDataGenerasi;
-    public $chartDataGender;
+    public $pertanian;
+    public $peternakan;
+    public $pariwisata;
+    public $perdagangan;
+    public $industri_mikro;
+    public $perikanan;
+    public $jasa;
+    public $agro_industri;
+
+    public $pembiayaan;
+    public $non_pembiayaan;
+
+    public $generasi_alpha;
+    public $generasi_z;
+    public $generasi_y_milenial;
+    public $generasi_x;
+    public $generasi_baby_boomers;
+
+    public $laki_laki;
+    public $perempuan;
 
     public function mount()
     {
@@ -75,118 +103,312 @@ class Dashboard extends Component
         $this->totalAgroIndustri = Umkm::where('jenis_sektor', 'agro industri')->count();
         $this->totalPariwisata = Umkm::where('jenis_sektor', 'pariwisata')->count();
 
-        $kecamatan = Umkm::distinct('kecamatan')->pluck('kecamatan');
-        $data = [];
-        foreach ($kecamatan as $kecamatan_usaha) {
-            $jumlah = Umkm::where('kecamatan', $kecamatan_usaha)->count();
-            $data[] = $jumlah;
+        $this->lokal = Umkm::where('lokal', 'V')->count();
+        $this->lintas_kabupaten_kota = Umkm::where('lintas_kabupaten_kota', 'V')->count();
+        $this->lintas_provinsi = Umkm::where('lintas_provinsi', 'V')->count();
+        $this->export = Umkm::where('export', 'V')->count();
+        $this->online = Umkm::where('online', 'V')->count();
+
+        $this->fashion = Umkm::where('jenis_usaha', 'fashion')->count();
+        $this->kerajinan = Umkm::where('jenis_usaha', 'kerajinan')->count();
+        $this->periklanan = Umkm::where('jenis_usaha', 'periklanan')->count();
+        $this->desain = Umkm::where('jenis_usaha', 'desain')->count();
+        $this->arsitektur = Umkm::where('jenis_usaha', 'arsitektur')->count();
+        $this->pasar_seni = Umkm::where('jenis_usaha', 'pasar seni')->count();
+        $this->drama = Umkm::where('jenis_usaha', 'drama')->count();
+        $this->pengembangan_perangkat_lunak = Umkm::where('jenis_usaha', 'pengembangan perangkat lunak')->count();
+        $this->kuliner = Umkm::where('jenis_usaha', 'kuliner')->count();
+        $this->seni_rupa = Umkm::where('jenis_usaha', 'seni rupa')->count();
+        $this->perfilman = Umkm::where('jenis_usaha', 'perfilman')->count();
+        $this->budidaya = Umkm::where('jenis_usaha', 'budidaya')->count();
+        $this->fotografi = Umkm::where('jenis_usaha', 'fotografi')->count();
+        $this->lainnya = Umkm::where('jenis_usaha', 'lainnya')->count();
+
+        $this->pertanian = Umkm::where('jenis_sektor', 'pertanian')->count();
+        $this->peternakan = Umkm::where('jenis_sektor', 'peternakan')->count();
+        $this->pariwisata = Umkm::where('jenis_sektor', 'pariwisata')->count();
+        $this->perdagangan = Umkm::where('jenis_sektor', 'perdagangan')->count();
+        $this->industri_mikro = Umkm::where('jenis_sektor', 'industri mikro')->count();
+        $this->perikanan = Umkm::where('jenis_sektor', 'perikanan')->count();
+        $this->jasa = Umkm::where('jenis_sektor', 'jasa')->count();
+        $this->agro_industri = Umkm::where('jenis_sektor', 'agro industri')->count();
+
+        $this->pembiayaan = Umkm::where('pembiayaan', 'V')->count();
+        $this->non_pembiayaan = Umkm::where('pembiayaan', 'X')->count();
+
+        $this->generasi_alpha = Umkm::where('gen', 'Generasi Alpha')->count();
+        $this->generasi_z = Umkm::where('gen', 'Generasi Z')->count();
+        $this->generasi_y_milenial = Umkm::where('gen', 'Generasi Y/Milenial')->count();
+        $this->generasi_x = Umkm::where('gen', 'Generasi X')->count();
+        $this->generasi_baby_boomers = Umkm::where('gen', 'Generasi Baby Boomers')->count();
+
+        $this->laki_laki = Umkm::where('jenis_kelamin', 'laki-laki')->count();
+        $this->perempuan = Umkm::where('jenis_kelamin', 'perempuan')->count();
+    }
+
+    public function updatedFilterKecamatan()
+    {
+        if ($this->filterKecamatan == 'all' || $this->filterKecamatan == '' || $this->filterKecamatan == null) {
+            $umkm = Umkm::get();
+
+            $this->totalData = $umkm->count();
+            $this->totalAgroIndustri = Umkm::where('jenis_sektor', 'agro industri')->count();
+            $this->totalPariwisata = Umkm::where('jenis_sektor', 'pariwisata')->count();
+
+            $this->lokal = Umkm::where('lokal', 'V')->count();
+            $this->lintas_kabupaten_kota = Umkm::where('lintas_kabupaten_kota', 'V')->count();
+            $this->lintas_provinsi = Umkm::where('lintas_provinsi', 'V')->count();
+            $this->export = Umkm::where('export', 'V')->count();
+            $this->online = Umkm::where('online', 'V')->count();
+
+            $this->fashion = Umkm::where('jenis_usaha', 'fashion')->count();
+            $this->kerajinan = Umkm::where('jenis_usaha', 'kerajinan')->count();
+            $this->periklanan = Umkm::where('jenis_usaha', 'periklanan')->count();
+            $this->desain = Umkm::where('jenis_usaha', 'desain')->count();
+            $this->arsitektur = Umkm::where('jenis_usaha', 'arsitektur')->count();
+            $this->pasar_seni = Umkm::where('jenis_usaha', 'pasar seni')->count();
+            $this->drama = Umkm::where('jenis_usaha', 'drama')->count();
+            $this->pengembangan_perangkat_lunak = Umkm::where('jenis_usaha', 'pengembangan perangkat lunak')->count();
+            $this->kuliner = Umkm::where('jenis_usaha', 'kuliner')->count();
+            $this->seni_rupa = Umkm::where('jenis_usaha', 'seni rupa')->count();
+            $this->perfilman = Umkm::where('jenis_usaha', 'perfilman')->count();
+            $this->budidaya = Umkm::where('jenis_usaha', 'budidaya')->count();
+            $this->fotografi = Umkm::where('jenis_usaha', 'fotografi')->count();
+            $this->lainnya = Umkm::where('jenis_usaha', 'lainnya')->count();
+
+            $this->pertanian = Umkm::where('jenis_sektor', 'pertanian')->count();
+            $this->peternakan = Umkm::where('jenis_sektor', 'peternakan')->count();
+            $this->pariwisata = Umkm::where('jenis_sektor', 'pariwisata')->count();
+            $this->perdagangan = Umkm::where('jenis_sektor', 'perdagangan')->count();
+            $this->industri_mikro = Umkm::where('jenis_sektor', 'industri mikro')->count();
+            $this->perikanan = Umkm::where('jenis_sektor', 'perikanan')->count();
+            $this->jasa = Umkm::where('jenis_sektor', 'jasa')->count();
+            $this->agro_industri = Umkm::where('jenis_sektor', 'agro industri')->count();
+
+            $this->pembiayaan = Umkm::where('pembiayaan', 'V')->count();
+            $this->non_pembiayaan = Umkm::where('pembiayaan', 'X')->count();
+
+            $this->generasi_alpha = Umkm::where('gen', 'Generasi Alpha')->count();
+            $this->generasi_z = Umkm::where('gen', 'Generasi Z')->count();
+            $this->generasi_y_milenial = Umkm::where('gen', 'Generasi Y/Milenial')->count();
+            $this->generasi_x = Umkm::where('gen', 'Generasi X')->count();
+            $this->generasi_baby_boomers = Umkm::where('gen', 'Generasi Baby Boomers')->count();
+
+            $this->laki_laki = Umkm::where('jenis_kelamin', 'laki-laki')->count();
+            $this->perempuan = Umkm::where('jenis_kelamin', 'perempuan')->count();
+
+            $this->dispatch('updateChartData', [
+                'lokal' => $this->lokal,
+                'lintas_kabupaten_kota' => $this->lintas_kabupaten_kota,
+                'lintas_provinsi' => $this->lintas_provinsi,
+                'export' => $this->export,
+                'online' => $this->online,
+
+                'fashion' => $this->fashion,
+                'kerajinan' => $this->kerajinan,
+                'periklanan' => $this->periklanan,
+                'desain' => $this->desain,
+                'arsitektur' => $this->arsitektur,
+                'pasar_seni' => $this->pasar_seni,
+                'drama' => $this->drama,
+                'pengembangan_perangkat_lunak' => $this->pengembangan_perangkat_lunak,
+                'kuliner' => $this->kuliner,
+                'seni_rupa' => $this->seni_rupa,
+                'perfilman' => $this->perfilman,
+                'budidaya' => $this->budidaya,
+                'fotografi' => $this->fotografi,
+                'lainnya' => $this->lainnya,
+
+                'pertanian' => $this->pertanian,
+                'peternakan' => $this->peternakan,
+                'pariwisata' => $this->pariwisata,
+                'perdagangan' => $this->perdagangan,
+                'industri_mikro' => $this->industri_mikro,
+                'perikanan' => $this->perikanan,
+                'jasa' => $this->jasa,
+                'agro_industri' => $this->agro_industri,
+
+                'pembiayaan' => $this->pembiayaan,
+                'non_pembiayaan' => $this->non_pembiayaan,
+
+                'generasi_alpha' => $this->generasi_alpha,
+                'generasi_z' => $this->generasi_z,
+                'generasi_y_milenial' => $this->generasi_y_milenial,
+                'generasi_x' => $this->generasi_x,
+                'generasi_baby_boomers' => $this->generasi_baby_boomers,
+
+                'laki_laki' => $this->laki_laki,
+                'perempuan' => $this->perempuan,
+            ]);
+        } else {
+            $umkm = Umkm::where('kecamatan', $this->filterKecamatan)->get();
+
+            $this->totalData = $umkm->count();
+            $this->totalAgroIndustri = Umkm::where('kecamatan', $this->filterKecamatan)
+                ->where('jenis_sektor', 'agro industri')
+                ->count();
+            $this->totalPariwisata = Umkm::where('kecamatan', $this->filterKecamatan)
+                ->where('jenis_sektor', 'pariwisata')
+                ->count();
+
+            $this->lokal = Umkm::where('kecamatan', $this->filterKecamatan)
+                ->where('lokal', 'V')
+                ->count();
+            $this->lintas_kabupaten_kota = Umkm::where('kecamatan', $this->filterKecamatan)
+                ->where('lintas_kabupaten_kota', 'V')
+                ->count();
+            $this->lintas_provinsi = Umkm::where('kecamatan', $this->filterKecamatan)
+                ->where('lintas_provinsi', 'V')
+                ->count();
+            $this->export = Umkm::where('kecamatan', $this->filterKecamatan)
+                ->where('export', 'V')
+                ->count();
+            $this->online = Umkm::where('kecamatan', $this->filterKecamatan)
+                ->where('online', 'V')
+                ->count();
+
+            $this->fashion = Umkm::where('kecamatan', $this->filterKecamatan)
+                ->where('jenis_usaha', 'fashion')
+                ->count();
+            $this->kerajinan = Umkm::where('kecamatan', $this->filterKecamatan)
+                ->where('jenis_usaha', 'kerajinan')
+                ->count();
+            $this->periklanan = Umkm::where('kecamatan', $this->filterKecamatan)
+                ->where('jenis_usaha', 'periklanan')
+                ->count();
+            $this->desain = Umkm::where('kecamatan', $this->filterKecamatan)
+                ->where('jenis_usaha', 'desain')
+                ->count();
+            $this->arsitektur = Umkm::where('kecamatan', $this->filterKecamatan)
+                ->where('jenis_usaha', 'arsitektur')
+                ->count();
+            $this->pasar_seni = Umkm::where('kecamatan', $this->filterKecamatan)
+                ->where('jenis_usaha', 'pasar seni')
+                ->count();
+            $this->drama = Umkm::where('kecamatan', $this->filterKecamatan)
+                ->where('jenis_usaha', 'drama')
+                ->count();
+            $this->pengembangan_perangkat_lunak = Umkm::where('kecamatan', $this->filterKecamatan)
+                ->where('jenis_usaha', 'pengembangan perangkat lunak')
+                ->count();
+            $this->kuliner = Umkm::where('kecamatan', $this->filterKecamatan)
+                ->where('jenis_usaha', 'kuliner')
+                ->count();
+            $this->seni_rupa = Umkm::where('kecamatan', $this->filterKecamatan)
+                ->where('jenis_usaha', 'seni_rupa')
+                ->count();
+            $this->perfilman = Umkm::where('kecamatan', $this->filterKecamatan)
+                ->where('jenis_usaha', 'perfilman')
+                ->count();
+            $this->budidaya = Umkm::where('kecamatan', $this->filterKecamatan)
+                ->where('jenis_usaha', 'budidaya')
+                ->count();
+            $this->fotografi = Umkm::where('kecamatan', $this->filterKecamatan)
+                ->where('jenis_usaha', 'fotografi')
+                ->count();
+            $this->lainnya = Umkm::where('kecamatan', $this->filterKecamatan)
+                ->where('jenis_usaha', 'lainnya')
+                ->count();
+
+            $this->pertanian = Umkm::where('kecamatan', $this->filterKecamatan)
+                ->where('jenis_sektor', 'pertanian')
+                ->count();
+            $this->peternakan = Umkm::where('kecamatan', $this->filterKecamatan)
+                ->where('jenis_sektor', 'peternakan')
+                ->count();
+            $this->pariwisata = Umkm::where('kecamatan', $this->filterKecamatan)
+                ->where('jenis_sektor', 'pariwisata')
+                ->count();
+            $this->perdagangan = Umkm::where('kecamatan', $this->filterKecamatan)
+                ->where('jenis_sektor', 'perdagangan')
+                ->count();
+            $this->industri_mikro = Umkm::where('kecamatan', $this->filterKecamatan)
+                ->where('jenis_sektor', 'industri mikro')
+                ->count();
+            $this->perikanan = Umkm::where('kecamatan', $this->filterKecamatan)
+                ->where('jenis_sektor', 'perikanan')
+                ->count();
+            $this->jasa = Umkm::where('kecamatan', $this->filterKecamatan)
+                ->where('jenis_sektor', 'jasa')
+                ->count();
+            $this->agro_industri = Umkm::where('kecamatan', $this->filterKecamatan)
+                ->where('jenis_sektor', 'agro industri')
+                ->count();
+
+            $this->pembiayaan = Umkm::where('kecamatan', $this->filterKecamatan)
+                ->where('pembiayaan', 'V')
+                ->count();
+            $this->non_pembiayaan = Umkm::where('kecamatan', $this->filterKecamatan)
+                ->where('pembiayaan', 'X')
+                ->count();
+
+            $this->generasi_alpha = Umkm::where('kecamatan', $this->filterKecamatan)
+                ->where('gen', 'Generasi Alpha')
+                ->count();
+            $this->generasi_z = Umkm::where('kecamatan', $this->filterKecamatan)
+                ->where('gen', 'Generasi Z')
+                ->count();
+            $this->generasi_y_milenial = Umkm::where('kecamatan', $this->filterKecamatan)
+                ->where('gen', 'Generasi Y/Milenial')
+                ->count();
+            $this->generasi_x = Umkm::where('kecamatan', $this->filterKecamatan)
+                ->where('gen', 'Generasi X')
+                ->count();
+            $this->generasi_baby_boomers = Umkm::where('kecamatan', $this->filterKecamatan)
+                ->where('gen', 'Generasi Baby Boomers')
+                ->count();
+
+            $this->laki_laki = Umkm::where('kecamatan', $this->filterKecamatan)
+                ->where('jenis_kelamin', 'laki-laki')
+                ->count();
+            $this->perempuan = Umkm::where('kecamatan', $this->filterKecamatan)
+                ->where('jenis_kelamin', 'perempuan')
+                ->count();
+
+            $this->dispatch('updateChartData', [
+                'lokal' => $this->lokal,
+                'lintas_kabupaten_kota' => $this->lintas_kabupaten_kota,
+                'lintas_provinsi' => $this->lintas_provinsi,
+                'export' => $this->export,
+                'online' => $this->online,
+
+                'fashion' => $this->fashion,
+                'kerajinan' => $this->kerajinan,
+                'periklanan' => $this->periklanan,
+                'desain' => $this->desain,
+                'arsitektur' => $this->arsitektur,
+                'pasar_seni' => $this->pasar_seni,
+                'drama' => $this->drama,
+                'pengembangan_perangkat_lunak' => $this->pengembangan_perangkat_lunak,
+                'kuliner' => $this->kuliner,
+                'seni_rupa' => $this->seni_rupa,
+                'perfilman' => $this->perfilman,
+                'budidaya' => $this->budidaya,
+                'fotografi' => $this->fotografi,
+                'lainnya' => $this->lainnya,
+
+                'pertanian' => $this->pertanian,
+                'peternakan' => $this->peternakan,
+                'pariwisata' => $this->pariwisata,
+                'perdagangan' => $this->perdagangan,
+                'industri_mikro' => $this->industri_mikro,
+                'perikanan' => $this->perikanan,
+                'jasa' => $this->jasa,
+                'agro_industri' => $this->agro_industri,
+
+                'pembiayaan' => $this->pembiayaan,
+                'non_pembiayaan' => $this->non_pembiayaan,
+
+                'generasi_alpha' => $this->generasi_alpha,
+                'generasi_z' => $this->generasi_z,
+                'generasi_y_milenial' => $this->generasi_y_milenial,
+                'generasi_x' => $this->generasi_x,
+                'generasi_baby_boomers' => $this->generasi_baby_boomers,
+
+                'laki_laki' => $this->laki_laki,
+                'perempuan' => $this->perempuan,
+            ]);
         }
-
-        $this->chartDataKecamatan = [
-            'labels' => $kecamatan,
-            'datasets' => [
-                [
-                    'data' => $data,
-                ],
-            ],
-        ];
-
-        // $this->totalTenagaKerjaTetapPerempuan = $umkm->sum('tenaga_kerja_tetap_perempuan');
-        // $this->totalTenagaKerjaTetapLakiLaki = $umkm->sum('tenaga_kerja_tetap_laki_laki');
-        // $this->totalTenagaKerjaTetap = $this->totalTenagaKerjaTetapPerempuan + $this->totalTenagaKerjaTetapLakiLaki;
-
-        // $this->totalTenagaKerjaLepasPerempuan = $umkm->sum('tenaga_kerja_lepas_perempuan');
-        // $this->totalTenagaKerjaLepasLakiLaki = $umkm->sum('tenaga_kerja_lepas_laki_laki');
-        // $this->totalTenagaKerjaLepas = $this->totalTenagaKerjaLepasPerempuan + $this->totalTenagaKerjaLepasLakiLaki;
-
-        // $this->chartDataTenagaKerja = [
-        //     'labels' => ['Tenaga Kerja Tetap Perempuan', 'Tenaga Kerja Tetap Laki-Laki', 'Tenaga Kerja Lepas Perempuan', 'Tenaga Kerja Lepas Laki-Laki'],
-        //     'datasets' => [
-        //         [
-        //             'data' => [$this->totalTenagaKerjaTetapPerempuan, $this->totalTenagaKerjaTetapLakiLaki, $this->totalTenagaKerjaLepasPerempuan, $this->totalTenagaKerjaLepasLakiLaki],
-        //         ],
-        //     ],
-        // ];
-
-        $jenisUsaha = Umkm::distinct('jenis_usaha')->pluck('jenis_usaha');
-        $data = [];
-        foreach ($jenisUsaha as $jenis) {
-            $jumlah = Umkm::where('jenis_usaha', $jenis)->count();
-            $data[] = $jumlah;
-        }
-
-        $this->chartDataJenisUsaha = [
-            'labels' => $jenisUsaha,
-            'datasets' => [
-                [
-                    'data' => $data,
-                ],
-            ],
-        ];
-
-        $jenisSektor = Umkm::distinct('jenis_sektor')->pluck('jenis_sektor');
-        $data = [];
-        foreach ($jenisSektor as $jenis) {
-            $jumlah = Umkm::where('jenis_sektor', $jenis)->count();
-            $data[] = $jumlah;
-        }
-
-        $this->chartDataJenisSektor = [
-            'labels' => $jenisSektor,
-            'datasets' => [
-                [
-                    'data' => $data,
-                ],
-            ],
-        ];
-
-        $kategoriUsaha = Umkm::distinct('kategori_usaha')->pluck('kategori_usaha');
-        $data = [];
-        foreach ($kategoriUsaha as $kateogri_usaha) {
-            $jumlah = Umkm::where('kategori_usaha', $kateogri_usaha)->count();
-            $data[] = $jumlah;
-        }
-
-        $this->chartDataKategoriUsaha = [
-            'labels' => $kategoriUsaha,
-            'datasets' => [
-                [
-                    'data' => $data,
-                ],
-            ],
-        ];
-        
-        $generasi = Umkm::distinct('gen')->pluck('gen');
-        $data = [];
-        foreach ($generasi as $generasi_usaha) {
-            $jumlah = Umkm::where('gen', $generasi_usaha)->count();
-            $data[] = $jumlah;
-        }
-
-        $this->chartDataGenerasi = [
-            'labels' => $generasi,
-            'datasets' => [
-                [
-                    'data' => $data,
-                ],
-            ],
-        ];
-
-        $gender = Umkm::distinct('jenis_kelamin')->pluck('jenis_kelamin');
-        $data = [];
-        foreach ($gender as $gender_usaha) {
-            $jumlah = Umkm::where('jenis_kelamin', $gender_usaha)->count();
-            $data[] = $jumlah;
-        }
-
-        $this->chartDataGender = [
-            'labels' => $gender,
-            'datasets' => [
-                [
-                    'data' => $data,
-                ],
-            ],
-        ];
     }
 
     #[Computed]

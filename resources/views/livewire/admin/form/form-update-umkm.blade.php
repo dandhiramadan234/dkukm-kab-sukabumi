@@ -462,10 +462,10 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <div class="card-wrapper border rounded-3 checkbox-checked">
-                                <label class="form-label" for="Daerah Pemasaran">Daerah Pemasaran</label>
-                                @error('daerah_pemasaran')
+                                <label class="form-label" for="Jangkauan Pemasaran">Jangkauan Pemasaran</label>
+                                @error('jangkauan_pemasaran')
                                     <div class="alert alert-light-danger light alert-dismissible fade show txt-danger border-left-danger"
                                         role="alert"><i data-feather="help-circle"></i>
                                         <p>{{ $message }}</p>
@@ -474,25 +474,76 @@
                                     </div>
                                 @enderror
                                 <div class="row">
-                                    @foreach ($daerah_pemasaran as $index => $pemasaran)
-                                        <div class="col-md-12 mb-2" wire:key="pemasaran-{{ $index }}">
-                                            <div class="input-group">
-                                                <span class="input-group-text">{{ $loop->iteration }}</span>
-                                                <div class="form-floating">
-                                                    <x-forms.text
-                                                        wire:model.defer="daerah_pemasaran.{{ $index }}.daerah_pemasaran"
-                                                        :placeholder="'Daerah Pemasaran'"></x-forms.text>
-                                                </div>
-                                                <button class="btn btn-outline-danger" id="button-addon2"
-                                                    type="button"
-                                                    wire:click="deleteFieldDaerahPemasaran({{ $index }})">Hapus</button>
+                                    <div class="col-md-12">
+                                        <div class="d-flex justify-content-between align-item-center mt-2">
+                                            <div class="col mt-1">
+                                                <input class="form-check-input" id="lokal" type="checkbox"
+                                                    wire:model.live="lokal">
+                                                <label class="form-check-label" for="lokal">Lokal</label>
                                             </div>
                                         </div>
-                                    @endforeach
-                                    <div class="col-md-12 mt-3">
-                                        <button class="btn btn-primary btn-block w-100" type="button"
-                                            wire:click="addFieldDaerahPemasaran">Tambah Form Daerah Pemasaran</button>
+                                        <div class="d-flex justify-content-between align-item-center mt-2">
+                                            <div class="col mt-1">
+                                                <input class="form-check-input" id="lintas_kabupaten_kota" type="checkbox"
+                                                    wire:model.live="lintas_kabupaten_kota">
+                                                <label class="form-check-label" for="Lintas Kabupaten/Kota">Lintas Kabupaten/Kota</label>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex justify-content-between align-item-center mt-2">
+                                            <div class="col mt-1">
+                                                <input class="form-check-input" id="lintas_provinsi" type="checkbox"
+                                                    wire:model.live="lintas_provinsi">
+                                                <label class="form-check-label" for="Lintas Provinsi">Lintas Provinsi</label>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex justify-content-between align-item-center mt-2">
+                                            <div class="col mt-1">
+                                                <input class="form-check-input" id="export" type="checkbox"
+                                                    wire:model.live="export">
+                                                <label class="form-check-label" for="Export">Export</label>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex justify-content-between align-item-center mt-2">
+                                            <div class="col mt-1">
+                                                <input class="form-check-input" id="online" type="checkbox"
+                                                    wire:model.live="online">
+                                                <label class="form-check-label" for="Online">Online</label>
+                                            </div>
+                                            <div class="col-10">
+                                                <input type="text"
+                                                    class="form-control @error('pemasaran_online') is-invalid @enderror"
+                                                    wire:model.defer="pemasaran_online" placeholder="Pemasaran Online"
+                                                    @if (!$online) disabled @endif />
+                                            </div>
+                                        </div>
                                     </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card-wrapper border rounded-3 checkbox-checked">
+                                <label class="form-label" for="Pembiayaan">Pembiayaan</label>
+                                @error('pembiayaan')
+                                    <div class="alert alert-light-danger light alert-dismissible fade show txt-danger border-left-danger"
+                                        role="alert"><i data-feather="help-circle"></i>
+                                        <p>{{ $message }}</p>
+                                        <button class="btn-close" type="button" data-bs-dismiss="alert"
+                                            aria-label="Close"></button>
+                                    </div>
+                                @enderror
+                                <div class="form-check">
+                                    <input class="form-check-input" id="V" type="radio" name="pembiayaan"
+                                        value="V" wire:model.live="pembiayaan">
+                                    <label class="form-check-label" for="V">Ya</label>
+                                    <input type="text"
+                                        class="form-control @error('sumber_pembiayaan') is-invalid @enderror"
+                                        wire:model.defer="sumber_pembiayaan" placeholder="Pembiayaan"
+                                        @if ($pembiayaan != 'V') disabled @endif />
+                                </div>
+                                <div class="form-check mt-3">
+                                    <input class="form-check-input" id="X" type="radio" name="pembiayaan"
+                                        value="X" wire:model.live="pembiayaan">
+                                    <label class="form-check-label" for="X">Tidak</label>
                                 </div>
                             </div>
                         </div>
@@ -563,7 +614,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <div class="card-wrapper border rounded-3 checkbox-checked">
                                 <label class="form-label" for="Nama Produk">Nama Produk</label>
                                 @error('nama_produk')
@@ -597,7 +648,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <label class="form-label" for="Foto Produk">Foto Produk</label>
                             <x-forms.file wire:model="document_produk" multiple allowImagePreview
                                 imagePreviewMaxHeight="200"
@@ -610,7 +661,19 @@
                                 </span>
                             @enderror
                         </div>
-
+                        <div class="col-md-4">
+                            <label class="form-label" for="Foto Umkm">Foto Umkm</label>
+                            <x-forms.file wire:model="document_umkm" multiple allowImagePreview
+                                imagePreviewMaxHeight="200"
+                                acceptedFileTypes="['image/jpeg', 'image/png', 'image/gif', 'image/bmp', 'image/svg+xml']"
+                                allowFileTypeValidation allowFileSizeValidation maxTotalFileSize="1024MB" />
+                            @error('document_umkm')
+                                <span class="" style="margin-top: 0.25rem; font-size:0.8125rem; color: #ea5455;"
+                                    role="alert">
+                                    {{ $message }}
+                                </span>
+                            @enderror
+                        </div>
                         <div class="col-md-4">
                             <div class="card-wrapper border rounded-3 checkbox-checked">
                                 <label class="form-label" for="Status UMKM">Status UMKM</label>
@@ -636,13 +699,14 @@
                         </div>
 
                         @if (count($current_document_produk) > 0)
-                            <div class="col-md-8">
+                            <div class="col-md-12">
                                 <div class="table-responsive theme-scrollbar signal-table">
                                     <table class="table">
                                         <thead>
                                             <tr>
                                                 <th>Foto</th>
                                                 <th>File Name</th>
+                                                <th>File Type</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
@@ -659,6 +723,9 @@
                                                         </td>
                                                         <td>
                                                             {{ $document['file_name'] }}
+                                                        </td>
+                                                        <td>
+                                                            {{ $document['file_type'] }}
                                                         </td>
                                                         <td>
                                                             <button class="btn btn-danger btn-block w-100"

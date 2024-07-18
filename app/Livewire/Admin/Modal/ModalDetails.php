@@ -17,7 +17,7 @@ class ModalDetails extends Component
 
     public $umkm;
     public $kepemilikan_ijin_usaha = [];
-    public $daerah_pemasaran;
+    public $jangakauan_pemasaran = [];
     public $kemitraan;
     public $produk = [];
     public $document_produk = [];
@@ -80,8 +80,45 @@ class ModalDetails extends Component
             ];
         }
 
+        $jangakauan_pemasaran = [];
+        if ($this->umkm->lokal == 'V') {
+            $jangakauan_pemasaran[] = [
+                'jenis' => 'Lokal',
+                'keterangan' => '-',
+            ];
+        }
+
+        if ($this->umkm->lintas_kabupaten_kota == 'V') {
+            $jangakauan_pemasaran[] = [
+                'jenis' => 'Lintas Kabupaten/Kota',
+                'keterangan' => '-',
+            ];
+        }
+
+        if ($this->umkm->lintas_provinsi == 'V') {
+            $jangakauan_pemasaran[] = [
+                'jenis' => 'Lintas Provinsi',
+                'keterangan' => '-',
+            ];
+        }
+
+        if ($this->umkm->export == 'V') {
+            $jangakauan_pemasaran[] = [
+                'jenis' => 'Export',
+                'keterangan' => '-',
+            ];
+        }
+
+        if ($this->umkm->online == 'V') {
+            $jangakauan_pemasaran[] = [
+                'jenis' => 'Online',
+                'keterangan' => $this->umkm->pemasaran_online,
+            ];
+        }
+
+
         $this->kepemilikan_ijin_usaha = $ijin_usaha;
-        $this->daerah_pemasaran = json_decode($this->umkm->daerah_pemasaran);
+        $this->jangakauan_pemasaran = $jangakauan_pemasaran;
         $this->kemitraan = json_decode($this->umkm->kemitraan);
     }
 }

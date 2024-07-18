@@ -35,6 +35,7 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('import/css/vendors/animate.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('import/css/vendors/prism.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('import/css/vendors/sweetalert2.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('import/css/c3.css') }}">
     <!-- Plugins css Ends-->
     <!-- Bootstrap css-->
     <link rel="stylesheet" type="text/css" href="{{ asset('import/css/vendors/bootstrap.css') }}">

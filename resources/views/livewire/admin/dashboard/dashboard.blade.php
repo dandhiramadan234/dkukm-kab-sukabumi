@@ -47,27 +47,34 @@
             </div>
         </div>
 
-        <div class="col-xl-4 col-md-12">
+        <div class="col-xl-12 col-md-12">
             <div class="card">
                 <div class="card-header">
-                    <h4>Chart Kecamatan</h4>
+                    <h4>Filter Kecamatan</h4>
                 </div>
-                <div class="card-body" wire:ignore>
-                    <canvas id="chartKecamatan"></canvas>
+                <div class="card-body">
+                    <select class="form-select" aria-label="Pilih Kecamatan"
+                        wire:model.live.debounce.250ms="filterKecamatan">
+                        <option label="Pilih Kecamatan"></option>
+                        <option value="all">Semua Kecamatan</option>
+                        @foreach ($this->kecamatans as $item)
+                            <option value="{{ $item->kecamatan }}">{{ $item->kecamatan }}</option>
+                        @endforeach
+                    </select>
                 </div>
             </div>
         </div>
 
-        {{-- <div class="col-xl-4 col-md-12">
+        <div class="col-xl-4 col-md-12">
             <div class="card">
                 <div class="card-header">
-                    <h4>Chart Tenaga Kerja</h4>
+                    <h4>Chart Jangkauan Pemasaran</h4>
                 </div>
                 <div class="card-body" wire:ignore>
-                    <canvas id="chartTenagaKerja"></canvas>
+                    <div id="chartJangkauanPemasaran"></div>
                 </div>
             </div>
-        </div> --}}
+        </div>
 
         <div class="col-xl-4 col-md-12">
             <div class="card">
@@ -75,7 +82,7 @@
                     <h4>Chart Jenis Usaha</h4>
                 </div>
                 <div class="card-body" wire:ignore>
-                    <canvas id="chartJenisUsaha"></canvas>
+                    <div id="chartJenisUsaha"></div>
                 </div>
             </div>
         </div>
@@ -86,7 +93,7 @@
                     <h4>Chart Jenis Sektor</h4>
                 </div>
                 <div class="card-body" wire:ignore>
-                    <canvas id="chartJenisSektor"></canvas>
+                    <div id="chartJenisSektor"></div>
                 </div>
             </div>
         </div>
@@ -94,10 +101,10 @@
         <div class="col-xl-4 col-md-12">
             <div class="card">
                 <div class="card-header">
-                    <h4>Chart Kategori Usaha</h4>
+                    <h4>Chart Pembiayaan</h4>
                 </div>
                 <div class="card-body" wire:ignore>
-                    <canvas id="chartKategoriUsaha"></canvas>
+                    <div id="chartPembiayaan"></div>
                 </div>
             </div>
         </div>
@@ -108,18 +115,18 @@
                     <h4>Chart Gen Pemilik UMKM</h4>
                 </div>
                 <div class="card-body" wire:ignore>
-                    <canvas id="chartGenerasi"></canvas>
+                    <div id="chartGenerasi"></div>
                 </div>
             </div>
         </div>
-
+        
         <div class="col-xl-4 col-md-12">
             <div class="card">
                 <div class="card-header">
                     <h4>Chart Gender Pemilik UMKM</h4>
                 </div>
                 <div class="card-body" wire:ignore>
-                    <canvas id="chartGender"></canvas>
+                    <div id="chartGender"></div>
                 </div>
             </div>
         </div>
@@ -190,7 +197,8 @@
                                             wire:model.live.debounce.250ms="kecamatan">
                                             <option label="Search Kecamatan"></option>
                                             @foreach ($this->kecamatans as $item)
-                                                <option value="{{ $item->kecamatan }}">{{ $item->kecamatan }}</option>
+                                                <option value="{{ $item->kecamatan }}">{{ $item->kecamatan }}
+                                                </option>
                                             @endforeach
                                         </select>
                                     </td>
@@ -252,138 +260,305 @@
 
 
 @push('scripts')
-    <script src="{{ asset('import/js/chart/chartjs/chart.js') }}"></script>
+    <script src="{{ asset('import/plugins/charts-c3/d3.v5.min.js') }}"></script>
+    <script src="{{ asset('import/plugins/charts-c3/c3-chart.js') }}"></script>
     <script>
-        const ctxKecamatan = document.getElementById('chartKecamatan').getContext('2d');
-        new Chart(ctxKecamatan, {
-            type: 'pie',
+        var chartJangkauanPemasaran = c3.generate({
+            bindto: '#chartJangkauanPemasaran',
             data: {
-                labels: @json($chartDataKecamatan['labels']),
-                datasets: @json($chartDataKecamatan['datasets'])
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        position: 'bottom',
-                    }
+                columns: [
+                    // each columns data
+                    ['data1', {{ $lokal }}],
+                    ['data2', {{ $lintas_kabupaten_kota }}],
+                    ['data3', {{ $lintas_provinsi }}],
+                    ['data4', {{ $export }}],
+                    ['data5', {{ $online }}],
+                ],
+                type: 'pie',
+                names: {
+                    'data1': 'Lokal : {{ $lokal }}',
+                    'data2': 'Lintas Kabupaten Kota : {{ $lintas_kabupaten_kota }}',
+                    'data3': 'Lintas Provinsi : {{ $lintas_provinsi }}',
+                    'data4': 'Export : {{ $export }}',
+                    'data5': 'Online : {{ $online }}',
                 }
-            }
+            },
+            axis: {},
+            legend: {
+                show: true,
+            },
+            padding: {
+                bottom: 0,
+                top: 0
+            },
+        });
+        var chartJenisUsaha = c3.generate({
+            bindto: '#chartJenisUsaha',
+            data: {
+                columns: [
+                    ['data1', {{ $fashion }}],
+                    ['data2', {{ $kerajinan }}],
+                    ['data3', {{ $periklanan }}],
+                    ['data4', {{ $desain }}],
+                    ['data5', {{ $arsitektur }}],
+                    ['data6', {{ $pasar_seni }}],
+                    ['data7', {{ $drama }}],
+                    ['data8', {{ $pengembangan_perangkat_lunak }}],
+                    ['data9', {{ $kuliner }}],
+                    ['data10', {{ $seni_rupa }}],
+                    ['data11', {{ $perfilman }}],
+                    ['data12', {{ $budidaya }}],
+                    ['data13', {{ $fotografi }}],
+                    ['data14', {{ $lainnya }}],
+                ],
+                type: 'pie',
+                names: {
+                    'data1': 'Fashion : {{ $fashion }}',
+                    'data2': 'Kerajinan : {{ $kerajinan }}',
+                    'data3': 'Periklanan : {{ $periklanan }}',
+                    'data4': 'Desain : {{ $desain }}',
+                    'data5': 'Arsitektur : {{ $arsitektur }}',
+                    'data6': 'Pasar Seni : {{ $pasar_seni }}',
+                    'data7': 'Drama : {{ $drama }}',
+                    'data8': 'Pengembangan Perangkat Lunak : {{ $pengembangan_perangkat_lunak }}',
+                    'data9': 'Kuliner : {{ $kuliner }}',
+                    'data10': 'Seni Rupa : {{ $seni_rupa }}',
+                    'data11': 'Perfilman : {{ $perfilman }}',
+                    'data12': 'Budidaya : {{ $budidaya }}',
+                    'data13': 'Fotografi : {{ $fotografi }}',
+                    'data14': 'Lainnya : {{ $lainnya }}',
+                }
+            },
+            axis: {},
+            legend: {
+                show: true,
+            },
+            padding: {
+                bottom: 0,
+                top: 0
+            },
+        });
+        var chartJenisSektor = c3.generate({
+            bindto: '#chartJenisSektor',
+            data: {
+                columns: [
+                    ['data1', {{ $pertanian }}],
+                    ['data2', {{ $peternakan }}],
+                    ['data3', {{ $pariwisata }}],
+                    ['data4', {{ $perdagangan }}],
+                    ['data5', {{ $industri_mikro }}],
+                    ['data6', {{ $perikanan }}],
+                    ['data7', {{ $jasa }}],
+                    ['data8', {{ $agro_industri }}],
+                ],
+                type: 'pie',
+                names: {
+                    'data1': 'Pertanian : {{ $pertanian }}',
+                    'data2': 'Peternakan : {{ $peternakan }}',
+                    'data3': 'Pariwisata : {{ $pariwisata }}',
+                    'data4': 'Perdagangan : {{ $perdagangan }}',
+                    'data5': 'Industri Mikro : {{ $industri_mikro }}',
+                    'data6': 'Perikanan : {{ $perikanan }}',
+                    'data7': 'Jasa : {{ $jasa }}',
+                    'data8': 'Agro Industri : {{ $agro_industri }}',
+                }
+            },
+            axis: {},
+            legend: {
+                show: true,
+            },
+            padding: {
+                bottom: 0,
+                top: 0
+            },
+        });
+        var chartPembiayaan = c3.generate({
+            bindto: '#chartPembiayaan',
+            data: {
+                columns: [
+                    ['data1', {{ $pembiayaan }}],
+                    ['data2', {{ $non_pembiayaan }}],
+                ],
+                type: 'pie',
+                names: {
+                    'data1': 'Pembiayaan (Ya) : {{ $pembiayaan }}',
+                    'data2': 'Pembiayaan (Tidak) : {{ $non_pembiayaan }}',
+                }
+            },
+            axis: {},
+            legend: {
+                show: true,
+            },
+            padding: {
+                bottom: 0,
+                top: 0
+            },
+        });
+        var chartGenerasi = c3.generate({
+            bindto: '#chartGenerasi',
+            data: {
+                columns: [
+                    ['data1', {{ $generasi_alpha }}],
+                    ['data2', {{ $generasi_z }}],
+                    ['data3', {{ $generasi_y_milenial }}],
+                    ['data4', {{ $generasi_x }}],
+                    ['data5', {{ $generasi_baby_boomers }}],
+                ],
+                type: 'pie',
+                names: {
+                    'data1': 'Generasi Alpha : {{ $generasi_alpha }}',
+                    'data2': 'Generasi Z : {{ $generasi_z }}',
+                    'data3': 'Generasi Y/Milenial : {{ $generasi_y_milenial }}',
+                    'data4': 'Generasi X : {{ $generasi_x }}',
+                    'data5': 'Generasi Baby Boomers : {{ $generasi_baby_boomers }}',
+                }
+            },
+            axis: {},
+            legend: {
+                show: true,
+            },
+            padding: {
+                bottom: 0,
+                top: 0
+            },
+        });
+        var chartGender = c3.generate({
+            bindto: '#chartGender',
+            data: {
+                columns: [
+                    ['data1', {{ $laki_laki }}],
+                    ['data2', {{ $perempuan }}],
+                ],
+                type: 'pie',
+                names: {
+                    'data1': 'Laki-Laki : {{ $laki_laki }}',
+                    'data2': 'Perempuan : {{ $perempuan }}',
+                }
+            },
+            axis: {},
+            legend: {
+                show: true,
+            },
+            padding: {
+                bottom: 0,
+                top: 0
+            },
         });
     </script>
-    {{-- <script>
-        const ctxTenagaKerja = document.getElementById('chartTenagaKerja').getContext('2d');
-        new Chart(ctxTenagaKerja, {
-            type: 'pie',
-            data: {
-                labels: @json($chartDataTenagaKerja['labels']),
-                datasets: @json($chartDataTenagaKerja['datasets'])
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        position: 'bottom',
-                    }
-                }
-            }
-        });
-    </script> --}}
     <script>
-        const ctxJenisUsaha = document.getElementById('chartJenisUsaha').getContext('2d');
-        new Chart(ctxJenisUsaha, {
-            type: 'pie',
-            data: {
-                labels: @json($chartDataJenisUsaha['labels']),
-                datasets: @json($chartDataJenisUsaha['datasets'])
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        position: 'bottom',
+        document.addEventListener('livewire:init', () => {
+            Livewire.on('updateChartData', (dataArray) => {
+                var data = dataArray[0];
+                chartJangkauanPemasaran.load({
+                    columns: [
+                        ['data1', data.lokal],
+                        ['data2', data.lintas_kabupaten_kota],
+                        ['data3', data.lintas_provinsi],
+                        ['data4', data.export],
+                        ['data5', data.online],
+                    ],
+                    names: {
+                        'data1': 'Lokal : ' + data.lokal,
+                        'data2': 'Lintas Kabupaten Kota : ' + data.lintas_kabupaten_kota,
+                        'data3': 'Lintas Provinsi : ' + data.lintas_provinsi,
+                        'data4': 'Export : ' + data.export,
+                        'data5': 'Online : ' + data.online,
                     }
-                }
-            }
-        });
-    </script>
-    <script>
-        const ctxJenisSektor = document.getElementById('chartJenisSektor').getContext('2d');
-        new Chart(ctxJenisSektor, {
-            type: 'pie',
-            data: {
-                labels: @json($chartDataJenisSektor['labels']),
-                datasets: @json($chartDataJenisSektor['datasets'])
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        position: 'bottom',
+                });
+                chartJenisUsaha.load({
+                    columns: [
+                        ['data1', data.fashion],
+                        ['data2', data.kerajinan],
+                        ['data3', data.periklanan],
+                        ['data4', data.desain],
+                        ['data5', data.arsitektur],
+                        ['data6', data.pasar_seni],
+                        ['data7', data.drama],
+                        ['data8', data.pengembangan_perangkat_lunak],
+                        ['data9', data.kuliner],
+                        ['data10', data.seni_rupa],
+                        ['data11', data.perfilman],
+                        ['data12', data.budidaya],
+                        ['data13', data.fotografi],
+                        ['data14', data.lainnya],
+                    ],
+                    names: {
+                        'data1': 'Fashion : ' + data.fashion,
+                        'data2': 'Kerajinan : ' + data.kerajinan,
+                        'data3': 'Periklanan : ' + data.periklanan,
+                        'data4': 'Desain : ' + data.desain,
+                        'data5': 'Arsitektur : ' + data.arsitektur,
+                        'data6': 'Pasar Seni : ' + data.pasar_seni,
+                        'data7': 'Drama : ' + data.drama,
+                        'data8': 'Pengembangan Perangkat Lunak : ' + data
+                            .pengembangan_perangkat_lunak,
+                        'data9': 'Kuliner : ' + data.kuliner,
+                        'data10': 'Seni Rupa : ' + data.seni_rupa,
+                        'data11': 'Perfilman : ' + data.perfilman,
+                        'data12': 'Budidaya : ' + data.budidaya,
+                        'data13': 'Fotografi : ' + data.fotografi,
+                        'data14': 'Lainnya : ' + data.lainnya,
                     }
-                }
-            }
-        });
-    </script>
-    <script>
-        const ctxKategoriUsaha = document.getElementById('chartKategoriUsaha').getContext('2d');
-        new Chart(ctxKategoriUsaha, {
-            type: 'pie',
-            data: {
-                labels: @json($chartDataKategoriUsaha['labels']),
-                datasets: @json($chartDataKategoriUsaha['datasets'])
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        position: 'bottom',
+                });
+                chartJenisSektor.load({
+                    columns: [
+                        ['data1', data.pertanian],
+                        ['data2', data.peternakan],
+                        ['data3', data.pariwisata],
+                        ['data4', data.perdagangan],
+                        ['data5', data.industri_mikro],
+                        ['data6', data.perikanan],
+                        ['data7', data.jasa],
+                        ['data8', data.agro_industri],
+                    ],
+                    names: {
+                        'data1': 'Pertanian : ' + data.pertanian,
+                        'data2': 'Peternakan : ' + data.peternakan,
+                        'data3': 'Pariwisata : ' + data.pariwisata,
+                        'data4': 'Perdagangan : ' + data.perdagangan,
+                        'data5': 'Industri Mikro : ' + data.industri_mikro,
+                        'data6': 'Perikanan : ' + data.perikanan,
+                        'data7': 'Jasa : ' + data.jasa,
+                        'data8': 'Agro Industri : ' + data.agro_industri,
                     }
-                }
-            }
-        });
-    </script>
-    <script>
-        const ctxGenerasi = document.getElementById('chartGenerasi').getContext('2d');
-        new Chart(ctxGenerasi, {
-            type: 'pie',
-            data: {
-                labels: @json($chartDataGenerasi['labels']),
-                datasets: @json($chartDataGenerasi['datasets'])
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        position: 'bottom',
+                });
+                chartPembiayaan.load({
+                    columns: [
+                        ['data1', data.pembiayaan],
+                        ['data2', data.non_pembiayaan],
+                    ],
+                    names: {
+                        'data1': 'Pembiayaan (Ya) : ' + data.pembiayaan,
+                        'data2': 'Pembiayaan (Tidak) : ' + data.non_pembiayaan,
                     }
-                }
-            }
-        });
-    </script>
-    <script>
-        const ctxGender = document.getElementById('chartGender').getContext('2d');
-        new Chart(ctxGender, {
-            type: 'pie',
-            data: {
-                labels: @json($chartDataGender['labels']),
-                datasets: @json($chartDataGender['datasets'])
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        position: 'bottom',
+                });
+                chartGenerasi.load({
+                    columns: [
+                        ['data1', data.generasi_alpha],
+                        ['data2', data.generasi_z],
+                        ['data3', data.generasi_y_milenial],
+                        ['data4', data.generasi_x],
+                        ['data5', data.generasi_baby_boomers],
+                    ],
+                    names: {
+                        'data1': 'Generasi Alpha : ' + data.generasi_alpha,
+                        'data2': 'Generasi Z : ' + data.generasi_z,
+                        'data3': 'Generasi Y/Milenial : ' + data.generasi_y_milenial,
+                        'data4': 'Generasi X : ' + data.generasi_x,
+                        'data5': 'Generasi Baby Boomers : ' + data.generasi_baby_boomers,
                     }
-                }
-            }
+                });
+                chartGender.load({
+                    columns: [
+                        ['data1', data.laki_laki],
+                        ['data2', data.perempuan],
+                    ],
+                    names: {
+                        'data1': 'Laki-Laki : ' + data.laki_laki,
+                        'data2': 'Perempuan : ' + data.perempuan,
+                    }
+                });
+            });
         });
     </script>
 @endpush
