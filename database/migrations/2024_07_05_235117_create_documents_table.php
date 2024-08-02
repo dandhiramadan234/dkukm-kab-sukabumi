@@ -15,9 +15,9 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('umkm_id');
             $table->foreign('umkm_id')->references('id')->on('umkms')->onDelete('cascade');
-            $table->string('file_name');
-            $table->string('file_path');
-            $table->string('file_type');
+            $table->string('file_name')->index();
+            $table->string('file_path')->index();
+            $table->string('file_type')->index();
             $table->timestamps();
             $table->softDeletes();
         });

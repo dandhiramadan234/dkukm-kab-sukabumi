@@ -27,11 +27,11 @@ class DataUmkmImport extends Component
     {
         $this->validate(
             [
-                'document_import' => 'required|max:1024',
+                'document_import' => 'required|max:2048',
             ],
             [
                 'document_import.required' => 'File import harus diisi.',
-                'document_import.max' => 'File tidak boleh lebih dari 1024 KB.',
+                'document_import.max' => 'File tidak boleh lebih dari 2048 KB.',
             ],
         );
 

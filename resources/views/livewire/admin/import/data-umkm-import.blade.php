@@ -9,10 +9,10 @@
                 <div class="card-body">
                     <div class="row g-3">
                         <div class="col-md-12">
-                            <label class="form-label" for="File Import">File Import</label>
+                            <label class="form-label" for="File Import">File Import (Max : 2048 KB)</label>
                             <x-forms.file wire:model="document_import" allowImagePreview
                                 imagePreviewMaxHeight="200"
-                                allowFileTypeValidation allowFileSizeValidation maxTotalFileSize="1024MB" />
+                                allowFileTypeValidation allowFileSizeValidation maxTotalFileSize="2048KB" />
                             @error('document_import')
                                 <span class="" style="margin-top: 0.25rem; font-size:0.8125rem; color: #ea5455;"
                                     role="alert">
