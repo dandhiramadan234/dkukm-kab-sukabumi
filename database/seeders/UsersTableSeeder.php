@@ -20,18 +20,18 @@ class UsersTableSeeder extends Seeder
             'password' => bcrypt('admindkukmkabsukabumi'),
         ]);
 
-        User::create([
-            'name' => 'Domdom',
-            'username' => 'domdom',
-            'role' => 'admin',
-            'password' => bcrypt('admin'),
-        ]);
+        // User::create([
+        //     'name' => 'Domdom',
+        //     'username' => 'domdom',
+        //     'role' => 'admin',
+        //     'password' => bcrypt('admin'),
+        // ]);
 
-        User::create([
-            'name' => 'Dandhi',
-            'username' => 'dandhi',
-            'role' => 'user',
-            'password' => bcrypt('user'),
-        ]);
+        // User::create([
+        //     'name' => 'Dandhi',
+        //     'username' => 'dandhi',
+        //     'role' => 'user',
+        //     'password' => bcrypt('user'),
+        // ]);
     }
 }
