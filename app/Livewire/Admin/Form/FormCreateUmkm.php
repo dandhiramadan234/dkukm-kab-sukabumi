@@ -471,48 +471,70 @@ class FormCreateUmkm extends Component
             }
 
             if (count($this->document_produk) > 0) {
-                $folder = 'public/' . $this->nama_umkm;
-
+                $uniqueFolder = uniqid();
+                $folder = 'public/' . $uniqueFolder;
+            
                 foreach ($this->document_produk as $file) {
                     $lastDotPosition = strrpos($file->getClientOriginalName(), '.');
                     $extension = substr($file->getClientOriginalName(), $lastDotPosition + 1);
-
+            
                     $uniqueId = uniqid();
                     $fileName = 'file-produk-' . $uniqueId . '.' . $extension;
-
-                    //file upload local
+            
+                    // File upload local
                     $file->storeAs($folder, $fileName);
-                    //end file upload local
-
+            
+                    // Set permissions to 755
+                    $filePath = storage_path('app/' . $folder . '/' . $fileName);
+                    chmod($filePath, 0755);
+            
+                    // End file upload local
+            
                     Document::create([
-                        'umkm_id' => $create->id,
+                        'umkm_id' => $this->id,
                         'file_name' => $fileName,
                         'file_path' => $folder,
                         'file_type' => 'produk',
                     ]);
                 }
+            
+                // Set permissions for the folder to 755
+                $folderPath = storage_path('app/' . $folder);
+                chmod($folderPath, 0755);
             }
-            if (count($this->document_umkm) > 0) {
-                $folder = 'public/' . $this->nama_umkm;
+            
 
+            if (count($this->document_umkm) > 0) {
+                $uniqueFolder = uniqid();
+                $folder = 'public/' . $uniqueFolder;
+            
                 foreach ($this->document_umkm as $file) {
                     $lastDotPosition = strrpos($file->getClientOriginalName(), '.');
                     $extension = substr($file->getClientOriginalName(), $lastDotPosition + 1);
-
+            
                     $uniqueId = uniqid();
                     $fileName = 'file-umkm-' . $uniqueId . '.' . $extension;
-
-                    //file upload local
+            
+                    // File upload local
                     $file->storeAs($folder, $fileName);
-                    //end file upload local
-
+            
+                    // Set permissions to 755
+                    $filePath = storage_path('app/' . $folder . '/' . $fileName);
+                    chmod($filePath, 0755);
+            
+                    // End file upload local
+            
                     Document::create([
-                        'umkm_id' => $create->id,
+                        'umkm_id' => $this->id,
                         'file_name' => $fileName,
                         'file_path' => $folder,
                         'file_type' => 'umkm',
                     ]);
                 }
+            
+                // Set permissions for the folder to 755
+                $folderPath = storage_path('app/' . $folder);
+                chmod($folderPath, 0755);
             }
 
             DB::commit();

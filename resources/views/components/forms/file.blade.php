@@ -28,9 +28,9 @@
 
 @push('styles')
     @once
-        <link href="{{ asset('import/plugins/filepond/unpkg.com_filepond@4.30.4_dist_filepond.css') }} " rel="stylesheet">
+        <link href="{{ asset('import/assets/plugins/filepond/unpkg.com_filepond@4.30.4_dist_filepond.css') }} " rel="stylesheet">
         <link
-            href=" {{ asset('import/plugins/filepond/unpkg.com_filepond-plugin-image-preview@4.6.11_dist_filepond-plugin-image-preview.css') }}"
+            href=" {{ asset('import/assets/plugins/filepond/unpkg.com_filepond-plugin-image-preview@4.6.11_dist_filepond-plugin-image-preview.css') }}"
             rel="stylesheet">
     @endonce
 @endpush
@@ -38,15 +38,15 @@
 @push('scripts')
     @once
         <script
-            src="{{ asset('import/plugins/filepond/unpkg.com_filepond-plugin-file-validate-type@1.2.8_dist_filepond-plugin-file-validate-type.js') }}">
+            src="{{ asset('import/assets/plugins/filepond/unpkg.com_filepond-plugin-file-validate-type@1.2.8_dist_filepond-plugin-file-validate-type.js') }}">
         </script>
         <script
-            src="{{ asset('import/plugins/filepond/unpkg.com_filepond-plugin-file-validate-size@2.2.8_dist_filepond-plugin-file-validate-size.js') }} ">
+            src="{{ asset('import/assets/plugins/filepond/unpkg.com_filepond-plugin-file-validate-size@2.2.8_dist_filepond-plugin-file-validate-size.js') }} ">
         </script>
         <script
-            src="{{ asset('import/plugins/filepond/unpkg.com_filepond-plugin-image-preview@4.6.11_dist_filepond-plugin-image-preview.js') }} ">
+            src="{{ asset('import/assets/plugins/filepond/unpkg.com_filepond-plugin-image-preview@4.6.11_dist_filepond-plugin-image-preview.js') }} ">
         </script>
-        <script src="{{ asset('import/plugins/filepond/unpkg.com_filepond@4.30.4_dist_filepond.js') }} "></script>
+        <script src="{{ asset('import/assets/plugins/filepond/unpkg.com_filepond@4.30.4_dist_filepond.js') }} "></script>
         <script>
             FilePond.registerPlugin(FilePondPluginFileValidateType);
             FilePond.registerPlugin(FilePondPluginFileValidateSize);

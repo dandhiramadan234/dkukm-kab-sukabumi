@@ -14,7 +14,7 @@
   }
 
   // left sidebar and vertical menu
-  if ($("#pageWrapper").hasClass("horizontal-wrapper")) {
+  if ($("#pageWrapper").hasClass("compact-wrapper")) {
     jQuery(".sidebar-title").append(
       '<div class="according-menu"><i class="fa fa-angle-right"></i></div>'
     );
@@ -81,7 +81,7 @@
         (smallSize = true), (bigSize = false);
         $("#pageWrapper")
           .removeClass("horizontal-wrapper")
-          .addClass("horizontal-wrapper");
+          .addClass("compact-wrapper");
         $(".page-body-wrapper")
           .removeClass("horizontal-menu")
           .addClass("sidebar-icon");
@@ -146,7 +146,7 @@
       if (contentwidth > 992 && !bigSize) {
         (smallSize = false), (bigSize = true);
         $("#pageWrapper")
-          .removeClass("horizontal-wrapper")
+          .removeClass("compact-wrapper")
           .addClass("horizontal-wrapper");
         jQuery(".sidebar-title .according-menu").remove();
       }
@@ -336,7 +336,7 @@
   });
 
   // page active
-  if ($("#pageWrapper").hasClass("horizontal-wrapper")) {
+  if ($("#pageWrapper").hasClass("compact-wrapper")) {
     $(".sidebar-wrapper nav").find("a").removeClass("active");
     $(".sidebar-wrapper nav").find("li").removeClass("active");
 
@@ -437,7 +437,7 @@
   // active link
   if (
     $(".simplebar-wrapper .simplebar-content-wrapper") &&
-    $("#pageWrapper").hasClass("horizontal-wrapper")
+    $("#pageWrapper").hasClass("compact-wrapper")
   ) {
     $(".simplebar-wrapper .simplebar-content-wrapper").animate(
       {

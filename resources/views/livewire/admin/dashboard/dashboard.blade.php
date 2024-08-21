@@ -9,7 +9,7 @@
                             <h2>{{ currency_format($totalData) }}</h2>
                             <p class="mb-0 text-truncate">Data UMKM</p>
                         </div>
-                        <div class="flex-shrink-0"><img src="{{ asset('import/images/dashboard-4/icon/invoice.png') }}"
+                        <div class="flex-shrink-0"><img src="{{ asset('import/assets/images/dashboard-4/icon/invoice.png') }}"
                                 alt="">
                         </div>
                     </div>
@@ -24,7 +24,7 @@
                             <h2>{{ currency_format($totalAgroIndustri) }}</h2>
                             <p class="mb-0 text-truncate">Sektor Agro Industri</p>
                         </div>
-                        <div class="flex-shrink-0"><img src="{{ asset('import/images/dashboard-4/icon/invoice.png') }}"
+                        <div class="flex-shrink-0"><img src="{{ asset('import/assets/images/dashboard-4/icon/invoice.png') }}"
                                 alt="">
                         </div>
                     </div>
@@ -39,7 +39,7 @@
                             <h2>{{ currency_format($totalPariwisata) }}</h2>
                             <p class="mb-0 text-truncate">Sektor Pariwisata</p>
                         </div>
-                        <div class="flex-shrink-0"><img src="{{ asset('import/images/dashboard-4/icon/invoice.png') }}"
+                        <div class="flex-shrink-0"><img src="{{ asset('import/assets/images/dashboard-4/icon/invoice.png') }}"
                                 alt="">
                         </div>
                     </div>
@@ -260,8 +260,8 @@
 
 
 @push('scripts')
-    <script src="{{ asset('import/plugins/charts-c3/d3.v5.min.js') }}"></script>
-    <script src="{{ asset('import/plugins/charts-c3/c3-chart.js') }}"></script>
+    <script src="{{ asset('import/assets/plugins/charts-c3/d3.v5.min.js') }}"></script>
+    <script src="{{ asset('import/assets/plugins/charts-c3/c3-chart.js') }}"></script>
     <script>
         var chartJangkauanPemasaran = c3.generate({
             bindto: '#chartJangkauanPemasaran',
