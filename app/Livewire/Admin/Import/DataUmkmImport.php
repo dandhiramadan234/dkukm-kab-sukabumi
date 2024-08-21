@@ -34,7 +34,7 @@ class DataUmkmImport extends Component
                 'document_import.max' => 'File tidak boleh lebih dari 2048 KB.',
             ],
         );
-
+        
         try {
             DB::beginTransaction();
 
@@ -67,11 +67,7 @@ class DataUmkmImport extends Component
         } catch (\Exception $e) {
             DB::rollBack();
             // Tangani error jika terjadi kesalahan saat mengimpor
-            $this->dispatch('swal:error', [
-                'type' => 'error',
-                'title' => 'Error!',
-                'text' => 'Terjadi kesalahan saat mengimpor data.',
-            ]);
+            dd($e);
         }
     }
 

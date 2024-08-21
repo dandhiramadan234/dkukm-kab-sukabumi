@@ -12,8 +12,7 @@ class UmkmImport implements ToModel, WithStartRow
 
     public function model(array $row)
     {
-        $kemitraan = $this->parseKemitraan($row[52]);
-        $daerah_pemasaran = $this->parseDaerahPemasaran($row[51]);
+        $kemitraan = $this->parseKemitraan($row[59]);
 
         return new Umkm([
             'nama_umkm' => $row[0],
@@ -67,11 +66,18 @@ class UmkmImport implements ToModel, WithStartRow
             'asset_tanah_bangunan' => $row[48],
             'asset_mesin_peralatan' => $row[49],
             'asset_kendaraan' => $row[50],
-            'daerah_pemasaran' => $daerah_pemasaran,
+            'lokal' => $row[51],
+            'lintas_kabupaten_kota' => $row[52],
+            'lintas_provinsi' => $row[53],
+            'export' => $row[54],
+            'online' => $row[55],
+            'pemasaran_online' => $row[56],
+            'pembiayaan' => $row[57],
+            'sumber_pembiayaan' => $row[58],
             'kemitraan' => $kemitraan,
-            'pelatihan' => $row[53],
-            'jenis_pelatihan' => $row[54],
-            'status_umkm' => $row[55],
+            'pelatihan' => $row[60],
+            'jenis_pelatihan' => $row[61],
+            'status_umkm' => $row[62],
         ]);
     }
 
@@ -84,17 +90,6 @@ class UmkmImport implements ToModel, WithStartRow
             $kemitraanFormatted[] = ['kemitraan' => $item];
         }
         return json_encode($kemitraanFormatted);
-    }
-
-    public function parseDaerahPemasaran($daerahPemasaranString)
-    {
-        $daerahPemasaranArray = explode(',', $daerahPemasaranString);
-        $daerahPemasaranArray = array_map('trim', $daerahPemasaranArray);
-        $daerahPemasaranFormatted = [];
-        foreach ($daerahPemasaranArray as $item) {
-            $daerahPemasaranFormatted[] = ['daerah_pemasaran' => $item];
-        }
-        return json_encode($daerahPemasaranFormatted);
     }
 
     public function startRow(): int
