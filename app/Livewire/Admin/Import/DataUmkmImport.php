@@ -49,6 +49,7 @@ class DataUmkmImport extends Component
 
                 $file->storeAs($folder, $fileName);
                 $filePath = storage_path('app/' . $folder . '/' . $fileName);
+                chmod($filePath, 0755);
 
                 $import = Excel::import(new UmkmImport(), $filePath);
             }
