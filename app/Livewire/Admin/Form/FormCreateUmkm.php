@@ -491,7 +491,7 @@ class FormCreateUmkm extends Component
                     // End file upload local
             
                     Document::create([
-                        'umkm_id' => $this->id,
+                        'umkm_id' => $create->id,
                         'file_name' => $fileName,
                         'file_path' => $folder,
                         'file_type' => 'produk',
@@ -525,7 +525,7 @@ class FormCreateUmkm extends Component
                     // End file upload local
             
                     Document::create([
-                        'umkm_id' => $this->id,
+                        'umkm_id' => $create->id,
                         'file_name' => $fileName,
                         'file_path' => $folder,
                         'file_type' => 'umkm',
