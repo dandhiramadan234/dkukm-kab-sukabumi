@@ -7,12 +7,22 @@
                     <h4>Import Data</h4>
                 </div>
                 <div class="card-body">
+                    @if (session()->has('error'))
+                        <div class="alert alert-light-danger light alert-dismissible fade show txt-danger border-left-danger"
+                            role="alert"><i data-feather="help-circle"></i>
+                            <p>{{ session('error') }}</p>
+                            <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    @endif
+
                     <div class="row g-3">
                         <div class="col-md-12">
                             <label class="form-label" for="File Import">File Import (Max : 2048 KB)</label>
-                            <x-forms.file wire:model="document_import" allowImagePreview
-                                imagePreviewMaxHeight="200"
+                            <x-forms.file wire:model="document_import" allowImagePreview imagePreviewMaxHeight="200"
                                 allowFileTypeValidation allowFileSizeValidation maxTotalFileSize="2048KB" />
+                            <span class="" style="margin-top: 0.25rem; font-size:0.8125rem;" role="alert">
+                                *Jika hasil import dan data tidak bertambah, maka data NIK sebelumnya sudah terdaftar
+                            </span>
                             @error('document_import')
                                 <span class="" style="margin-top: 0.25rem; font-size:0.8125rem; color: #ea5455;"
                                     role="alert">

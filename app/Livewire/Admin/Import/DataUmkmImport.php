@@ -66,8 +66,8 @@ class DataUmkmImport extends Component
             ]);
         } catch (\Exception $e) {
             DB::rollBack();
-            // Tangani error jika terjadi kesalahan saat mengimpor
-            dd($e);
+            // Tangani error jika terjadi kesalahan saat mengimpor           
+            session()->flash('error', 'Terjadi kesalahan: ' . $e->getMessage());
         }
     }
 

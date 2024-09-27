@@ -189,7 +189,7 @@ class FormCreateUmkm extends Component
             [
                 'nama_umkm' => 'required',
                 'nama_pemilik' => 'required',
-                'nik' => 'required|numeric',
+                'nik' => 'required|numeric|unique:umkms,nik',
                 'no_handphone' => 'required|numeric',
                 'tempat_lahir' => 'required',
                 'tanggal_lahir' => 'required',
@@ -230,6 +230,7 @@ class FormCreateUmkm extends Component
                 'nama_pemilik.required' => 'Nama Pemilik harus diisi.',
                 'nik.required' => 'NIK harus diisi.',
                 'nik.numeric' => 'NIK harus berupa angka.',
+                'nik.unique' => 'NIK sudah terdaftar.',
                 'no_handphone.required' => 'No Handphone/Telephone harus diisi.',
                 'no_handphone.numeric' => 'No Handphone/Telephone harus berupa angka.',
                 'tempat_lahir.required' => 'Tempat Lahir harus diisi.',
